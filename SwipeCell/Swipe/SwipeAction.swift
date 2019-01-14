@@ -11,7 +11,6 @@ import UIKit
 
 class SwipeAction {
     public var buttonTitle: String?
-    public var 
 }
 
 class SwipeActionButton: UIButton {}

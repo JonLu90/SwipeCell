@@ -14,9 +14,32 @@ class SwipeActionView: UIView {
 //    var actionButton: SwipeActionButton
 //    var buttonWidth: CGFloat
 //    var feebackGenerator: SwipeFeedback
-//    var visibleWidth: CGFloat {
-//        didSet {}
-//    }
+    var visibleWidth: CGFloat = 0 {
+        didSet {
+            setNeedsLayout()
+            layoutIfNeeded()
+        }
+    }
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        
+        let backgroundColor = UIColor.blue
+        let context = UIGraphicsGetCurrentContext()
+        backgroundColor.setFill()
+        context?.fill(rect)
+    }
+    
+    func setExpanded() {
+        // TODO
+        let expansionAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1.0, animations: nil)
+        expansionAnimator.addAnimations {
+            self.setNeedsLayout()
+            self.layoutIfNeeded()
+        }
+        expansionAnimator.startAnimation(afterDelay: 0)
+        
+    }
 }
 
 class SwipeFeedback {

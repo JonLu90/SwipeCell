@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		EBF2293E21E8B2A7008061F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF2293D21E8B2A7008061F7 /* AppDelegate.swift */; };
-		EBF2294021E8B2A7008061F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF2293F21E8B2A7008061F7 /* ViewController.swift */; };
 		EBF2294321E8B2A7008061F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBF2294121E8B2A7008061F7 /* Main.storyboard */; };
 		EBF2294521E8B2A7008061F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EBF2294421E8B2A7008061F7 /* Assets.xcassets */; };
 		EBF2294821E8B2A7008061F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBF2294621E8B2A7008061F7 /* LaunchScreen.storyboard */; };
@@ -19,6 +18,9 @@
 		EBF2297121E93F07008061F7 /* SwipeActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF2297021E93F07008061F7 /* SwipeActionView.swift */; };
 		EBF2297521E942A5008061F7 /* SwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF2297421E942A5008061F7 /* SwipeAction.swift */; };
 		EBF2297721EC4182008061F7 /* SwipeToTrackAPIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF2297621EC4182008061F7 /* SwipeToTrackAPIs.swift */; };
+		EBF2297921EC76A4008061F7 /* TrackFoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF2297821EC76A4008061F7 /* TrackFoodViewController.swift */; };
+		EBF2297B21EC76F7008061F7 /* FoodDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF2297A21EC76F6008061F7 /* FoodDataSource.swift */; };
+		EBF2297D21EC7A13008061F7 /* SwipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF2297C21EC7A13008061F7 /* SwipeTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,7 +43,6 @@
 /* Begin PBXFileReference section */
 		EBF2293A21E8B2A7008061F7 /* SwipeCell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwipeCell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBF2293D21E8B2A7008061F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EBF2293F21E8B2A7008061F7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		EBF2294221E8B2A7008061F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EBF2294421E8B2A7008061F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EBF2294721E8B2A7008061F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -57,6 +58,9 @@
 		EBF2297021E93F07008061F7 /* SwipeActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeActionView.swift; sourceTree = "<group>"; };
 		EBF2297421E942A5008061F7 /* SwipeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeAction.swift; sourceTree = "<group>"; };
 		EBF2297621EC4182008061F7 /* SwipeToTrackAPIs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeToTrackAPIs.swift; sourceTree = "<group>"; };
+		EBF2297821EC76A4008061F7 /* TrackFoodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackFoodViewController.swift; sourceTree = "<group>"; };
+		EBF2297A21EC76F6008061F7 /* FoodDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodDataSource.swift; sourceTree = "<group>"; };
+		EBF2297C21EC7A13008061F7 /* SwipeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,7 +113,8 @@
 			children = (
 				EBF2296B21E8B80A008061F7 /* Swipe */,
 				EBF2293D21E8B2A7008061F7 /* AppDelegate.swift */,
-				EBF2293F21E8B2A7008061F7 /* ViewController.swift */,
+				EBF2297821EC76A4008061F7 /* TrackFoodViewController.swift */,
+				EBF2297A21EC76F6008061F7 /* FoodDataSource.swift */,
 				EBF2294121E8B2A7008061F7 /* Main.storyboard */,
 				EBF2294421E8B2A7008061F7 /* Assets.xcassets */,
 				EBF2294621E8B2A7008061F7 /* LaunchScreen.storyboard */,
@@ -144,6 +149,7 @@
 				EBF2297021E93F07008061F7 /* SwipeActionView.swift */,
 				EBF2297421E942A5008061F7 /* SwipeAction.swift */,
 				EBF2297621EC4182008061F7 /* SwipeToTrackAPIs.swift */,
+				EBF2297C21EC7A13008061F7 /* SwipeTableViewCell.swift */,
 			);
 			path = Swipe;
 			sourceTree = "<group>";
@@ -280,10 +286,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBF2296F21E8B86B008061F7 /* SwipeController.swift in Sources */,
-				EBF2294021E8B2A7008061F7 /* ViewController.swift in Sources */,
+				EBF2297D21EC7A13008061F7 /* SwipeTableViewCell.swift in Sources */,
 				EBF2296D21E8B827008061F7 /* Swipeable.swift in Sources */,
+				EBF2297B21EC76F7008061F7 /* FoodDataSource.swift in Sources */,
 				EBF2293E21E8B2A7008061F7 /* AppDelegate.swift in Sources */,
 				EBF2297721EC4182008061F7 /* SwipeToTrackAPIs.swift in Sources */,
+				EBF2297921EC76A4008061F7 /* TrackFoodViewController.swift in Sources */,
 				EBF2297121E93F07008061F7 /* SwipeActionView.swift in Sources */,
 				EBF2297521E942A5008061F7 /* SwipeAction.swift in Sources */,
 			);

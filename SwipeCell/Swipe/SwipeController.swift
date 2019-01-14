@@ -15,36 +15,63 @@ protocol SwipeControllerDelegate: class {
     
 }
 
-class SwipeController {
+class SwipeController: NSObject {
     
     var swipeable: (UIView & Swipeable)?
     var actionContainerView: UIView?
     var tableView: UITableView?
     var delegate: SwipeControllerDelegate?
     var originalCenter: CGFloat = 0
+    lazy var panGestureRecognizer: UIPanGestureRecognizer = {
+        let gesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gesture:)))
+        return gesture
+    }()
     
-    private func handlePan(gesture: UIPanGestureRecognizer) {
+    init(swipeable: UIView & Swipeable, actionContainerView: UIView) {
+        self.swipeable = swipeable
+        self.actionContainerView = actionContainerView
+        
+        super.init()
+        
+        swipeable.addGestureRecognizer(panGestureRecognizer)
+    }
+    
+    @objc private func handlePan(gesture: UIPanGestureRecognizer) {
         guard let target = actionContainerView, var swipeable = self.swipeable else { return }
         let velocity = gesture.velocity(in: target)
         if velocity.x < 0 { return }
         
         switch gesture.state {
         case .began:
-            if let swipeable = tableView?.swipeCells.first(where: { $0.state == .dragging }),
-                swipeable != self.swipeable { return }
+//            if let swipeable = tableView?.swipeCells.first(where: { $0.state == .dragging }),
+//                swipeable != self.swipeable { return }
+
+            let indexPath = IndexPath(row: 0, section: 0)
+            if let swipeable = tableView?.cellForRow(at: indexPath) { return }
             
             stopAnimatorIfNeeded()
             originalCenter = target.center.x
             
             if swipeable.state == .initial || swipeable.state == .animatingToInitial {
-                guard let action = delegate?.editActionForSwipeable(self) else { return }
+                //guard let action = delegate?.editActionForSwipeable(self) else { return }
+                let action = SwipeAction()
                 configureActionView(with: action)
                 delegate?.willBeginEditingSwipeable(self)
             }
         case .changed:
+            guard let actionView = swipeable.actionView, let actionContainerView = self.actionContainerView else  { return }
             
+            let translation = gesture.translation(in: target).x
             
+            target.center.x = translation
+            swipeable.actionView?.visibleWidth = abs(actionContainerView.frame.minX)
+            actionView.setExpanded()
+        case .ended, .cancelled, .failed:
+            return
+        default: break
         }
+        
+        
     }
     
     private func configureActionView(with action: SwipeAction) {
