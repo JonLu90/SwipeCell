@@ -9,6 +9,12 @@
 import Foundation
 import UIKit
 
+protocol SwipeTableViewCellDelegate: class {
+    func tableView(_ tableView: UITableView, editActionForRowAt indexPath: IndexPath) -> SwipeAction
+    func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath)
+    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath)
+}
+
 class SwipeTableViewCell: UITableViewCell {
     
     var state = SwipeCellState.initial
