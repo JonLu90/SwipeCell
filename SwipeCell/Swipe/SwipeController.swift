@@ -7,12 +7,12 @@
 //
 
 import Foundation
-import  UIKit
+import UIKit
 
 protocol SwipeControllerDelegate: class {
     func editActionForSwipeable(_ controller: SwipeController) -> SwipeAction?
     func willBeginEditingSwipeable(_ controller: SwipeController)
-    
+    func didEndEditingSwipeable(_ controller: SwipeController)
 }
 
 class SwipeController: NSObject {
@@ -39,7 +39,7 @@ class SwipeController: NSObject {
     @objc private func handlePan(gesture: UIPanGestureRecognizer) {
         guard let target = actionContainerView, var swipeable = self.swipeable else { return }
         let velocity = gesture.velocity(in: target)
-        if velocity.x < 0 { return }
+        //if velocity.x < 0 { return } // TODO : optimize this
         
         switch gesture.state {
         case .began:
@@ -50,19 +50,23 @@ class SwipeController: NSObject {
             originalCenter = target.center.x
             
             if swipeable.state == .initial || swipeable.state == .animatingToInitial {
-                //guard let action = delegate?.editActionForSwipeable(self) else { return }
+                //guard let action = delegate?.editActionForSwipeable(self) else { return }  TODO
                 let action = SwipeAction()
                 delegate?.willBeginEditingSwipeable(self)
                 configureActionView(with: action)
             }
         case .changed:
             guard let actionView = swipeable.actionView, let actionContainerView = self.actionContainerView else  { return }
+            guard swipeable.state.isActive else { return }
             
             let translation = gesture.translation(in: target).x
-
             print("translation : \(translation)")
             
-            actionContainerView.center.x = translation
+            let targetOffset: CGFloat = 187.0
+            let currentOffset = abs(translation + originalCenter - swipeable.bounds.midX)
+            print("currentOffset : \(currentOffset)")
+            
+            target.center.x = gesture.elasticTranslation(in: target, withLimit: CGSize(width: targetOffset, height: 0), fromOriginalCenter: CGPoint(x: originalCenter, y: 0), applyingRatio: 1.0).x
             
             swipeable.actionView?.visibleWidth = abs(actionContainerView.frame.minX)
             actionView.setExpanded()
@@ -79,7 +83,10 @@ class SwipeController: NSObject {
               let actionContainerView = self.actionContainerView,
               let tableView = self.tableView else { return }
         
-        let actionView = SwipeActionView()
+        swipeable.actionView?.removeFromSuperview()
+        swipeable.actionView = nil
+        
+        let actionView = SwipeActionView()  // TODO
         actionView.backgroundColor = UIColor.blue
         actionView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -96,4 +103,26 @@ class SwipeController: NSObject {
     }
     
     private func stopAnimatorIfNeeded() {}
+}
+
+extension UIPanGestureRecognizer {
+    func elasticTranslation(in view: UIView?,
+                            withLimit limit: CGSize,
+                            fromOriginalCenter center: CGPoint,
+                            applyingRatio ratio: CGFloat = 0.20) -> CGPoint
+    {
+        let translation = self.translation(in: view)
+        
+        guard let sourceView = self.view else { return translation }
+        
+        let updatedCenter = CGPoint(x: center.x + translation.x, y: center.y + translation.y)
+        let distanceFromCenter = CGSize(width: abs(updatedCenter.x - sourceView.bounds.midX), height: abs(updatedCenter.y - sourceView.bounds.midY))
+        
+        let inverseRatio = 1.0 - ratio
+        let scale: (x: CGFloat, y: CGFloat) = (updatedCenter.x < sourceView.bounds.midX ? -1 : 1, updatedCenter.y < sourceView.bounds.midY ? -1 : 1)
+        let x = updatedCenter.x - (distanceFromCenter.width > limit.width ? inverseRatio * (distanceFromCenter.width - limit.width) * scale.x : 0)
+        let y = updatedCenter.y - (distanceFromCenter.height > limit.height ? inverseRatio * (distanceFromCenter.height - limit.height) * scale.y : 0)
+        
+        return CGPoint(x: x, y: y)
+    }
 }

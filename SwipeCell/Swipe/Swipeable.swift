@@ -23,4 +23,5 @@ enum SwipeCellState: Int {
     case expanded
     case dragging
     case animatingToInitial
+    var isActive: Bool { return self != .initial }
 }
