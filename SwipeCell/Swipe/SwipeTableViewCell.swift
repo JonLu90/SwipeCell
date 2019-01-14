@@ -14,6 +14,7 @@ class SwipeTableViewCell: UITableViewCell {
     var state = SwipeCellState.initial
     var actionView: SwipeActionView?
     var swipeController: SwipeController!
+    var tableView: UITableView?
     var panGestureRecognizer: UIGestureRecognizer {
         return swipeController.panGestureRecognizer
     }
@@ -27,5 +28,20 @@ class SwipeTableViewCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        
+        var view: UIView = self
+        while let superview = view.superview {
+            view = superview
+            if let tableView = view as? UITableView {
+                self.tableView = tableView
+                swipeController.tableView = tableView
+                
+                // handle table pan
+            }
+        }
     }
 }

@@ -43,11 +43,8 @@ class SwipeController: NSObject {
         
         switch gesture.state {
         case .began:
-//            if let swipeable = tableView?.swipeCells.first(where: { $0.state == .dragging }),
-//                swipeable != self.swipeable { return }
-
-            let indexPath = IndexPath(row: 0, section: 0)
-            if let swipeable = tableView?.cellForRow(at: indexPath) { return }
+            if let swipeable = tableView?.swipeCells.first(where: { $0.state == .dragging }),
+                swipeable != self.swipeable { return }
             
             stopAnimatorIfNeeded()
             originalCenter = target.center.x
@@ -55,15 +52,18 @@ class SwipeController: NSObject {
             if swipeable.state == .initial || swipeable.state == .animatingToInitial {
                 //guard let action = delegate?.editActionForSwipeable(self) else { return }
                 let action = SwipeAction()
-                configureActionView(with: action)
                 delegate?.willBeginEditingSwipeable(self)
+                configureActionView(with: action)
             }
         case .changed:
             guard let actionView = swipeable.actionView, let actionContainerView = self.actionContainerView else  { return }
             
             let translation = gesture.translation(in: target).x
+
+            print("translation : \(translation)")
             
-            target.center.x = translation
+            actionContainerView.center.x = translation
+            
             swipeable.actionView?.visibleWidth = abs(actionContainerView.frame.minX)
             actionView.setExpanded()
         case .ended, .cancelled, .failed:
