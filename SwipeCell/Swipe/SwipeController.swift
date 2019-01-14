@@ -78,7 +78,7 @@ class SwipeController: NSObject {
             // if triggered for perform
             // else
             // TODO
-            let targetOffset: CGFloat = 187.0
+            let targetOffset: CGFloat = 287.0
             let distance = targetOffset - actionContainerView.center.x
             let normalizedVelocity = velocity.x * scrollRatio / distance
             
