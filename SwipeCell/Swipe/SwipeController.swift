@@ -22,6 +22,8 @@ class SwipeController: NSObject {
     var tableView: UITableView?
     var delegate: SwipeControllerDelegate?
     var originalCenter: CGFloat = 0
+    var animator: UIViewPropertyAnimator?
+    var scrollRatio: CGFloat = 1.0
     lazy var panGestureRecognizer: UIPanGestureRecognizer = {
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gesture:)))
         return gesture
@@ -62,16 +64,25 @@ class SwipeController: NSObject {
             let translation = gesture.translation(in: target).x
             print("translation : \(translation)")
             
-            let targetOffset: CGFloat = 187.0
+            let targetOffset: CGFloat = 187.0 // TODO
             let currentOffset = abs(translation + originalCenter - swipeable.bounds.midX)
             print("currentOffset : \(currentOffset)")
             
             target.center.x = gesture.elasticTranslation(in: target, withLimit: CGSize(width: targetOffset, height: 0), fromOriginalCenter: CGPoint(x: originalCenter, y: 0), applyingRatio: 1.0).x
             
             swipeable.actionView?.visibleWidth = abs(actionContainerView.frame.minX)
-            actionView.setExpanded()
+
         case .ended, .cancelled, .failed:
-            return
+            guard let actionView = swipeable.actionView,
+                let actionContainerView = self.actionContainerView else { return }
+            // if triggered for perform
+            // else
+            // TODO
+            let targetOffset: CGFloat = 187.0
+            let distance = targetOffset - actionContainerView.center.x
+            let normalizedVelocity = velocity.x * scrollRatio / distance
+            
+            animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity, completion: nil)
         default: break
         }
         
@@ -103,6 +114,50 @@ class SwipeController: NSObject {
     }
     
     private func stopAnimatorIfNeeded() {}
+    
+    private func reset() {
+        swipeable?.state = .initial
+        swipeable?.actionView?.removeFromSuperview()
+        swipeable?.actionView = nil
+    }
+    
+    @available(iOS 10.0, *)
+    private func animate(duration: Double = 0.5,
+                         toOffset offset: CGFloat,
+                         withInitialVelocity velocity: CGFloat = 0,
+                         completion: ((Bool) -> Void)? = nil)
+    {
+        stopAnimatorIfNeeded()
+        swipeable?.layoutIfNeeded()
+        
+        let animator: UIViewPropertyAnimator = {
+            if velocity != 0 {
+                let velocity = CGVector(dx: velocity, dy: velocity)
+                let parameters = UISpringTimingParameters(mass: 1.0, stiffness: 100, damping: 18, initialVelocity: velocity)
+                return UIViewPropertyAnimator(duration: duration, timingParameters: parameters)
+            }
+            else { return UIViewPropertyAnimator(duration: duration, dampingRatio: 1.0, animations: nil) }
+        }()
+        
+        animator.addAnimations {
+            guard let swipeable = self.swipeable,
+                let actionContainerView = self.actionContainerView else { return }
+            
+            actionContainerView.center = CGPoint(x: offset, y: actionContainerView.center.y)
+            swipeable.actionView?.visibleWidth = abs(actionContainerView.frame.minX)
+            swipeable.layoutIfNeeded()
+        }
+
+        // TODO
+//        if let completion = completion {
+//            animator.addCompletion(completion)
+//        }
+        
+        self.animator = animator
+        
+        animator.startAnimation()
+    }
+    
 }
 
 extension UIPanGestureRecognizer {
