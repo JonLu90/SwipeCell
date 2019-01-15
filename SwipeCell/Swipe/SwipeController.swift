@@ -100,17 +100,23 @@ class SwipeController: NSObject {
                 
             }
             
-            let targetOffset: CGFloat = 287.0
+            let targetOffset: CGFloat = targetCenter(active: swipeable.state.isActive)
             let distance = targetOffset - actionContainerView.center.x
             let normalizedVelocity = velocity.x * scrollRatio / distance
             
             animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity, completion: nil)
-            
-            
         default: break
         }
         
         
+    }
+    
+    private func targetCenter(active: Bool) -> CGFloat {
+        guard let swipeable = self.swipeable else { return 0 }
+        guard let actionView = swipeable.actionView,
+            active == true else { return swipeable.bounds.midX }
+        
+        return swipeable.bounds.midX + actionView.buttonWidth
     }
     
     private func configureActionView(with action: SwipeAction) {

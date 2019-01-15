@@ -25,6 +25,7 @@ class SwipeActionView: UIView {
             layoutIfNeeded()
         }
     }
+    var buttonWidth: CGFloat = 115
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
