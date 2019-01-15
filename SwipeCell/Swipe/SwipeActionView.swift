@@ -18,7 +18,7 @@ class SwipeActionView: UIView {
 //    var actionButton: SwipeActionButton
 //    var buttonWidth: CGFloat
 //    var feebackGenerator: SwipeFeedback
-    private(set) var expanded: Bool = false // action button is dragged past half of the cell
+    private(set) var isExpanded: Bool = false // action button is dragged past half of the cell
     var visibleWidth: CGFloat = 0 {
         didSet {
             setNeedsLayout()

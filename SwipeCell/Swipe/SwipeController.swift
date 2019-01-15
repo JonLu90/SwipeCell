@@ -91,15 +91,22 @@ class SwipeController: NSObject {
                 let actionContainerView = self.actionContainerView else { return }
             if swipeable.state.isActive == false && swipeable.bounds.midX == target.center.x { return }
             
-            swipeable.state = velocity.x < 0 && !actionView.expanded ? .initial : .revealed
-            // if triggered for perform
-            // else
-            // TODO
+            swipeable.state = velocity.x < 0 && !actionView.isExpanded ? .initial : .revealed
+            
+            if actionView.isExpanded {
+                // fire swipe action
+            }
+            else {
+                
+            }
+            
             let targetOffset: CGFloat = 287.0
             let distance = targetOffset - actionContainerView.center.x
             let normalizedVelocity = velocity.x * scrollRatio / distance
             
             animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity, completion: nil)
+            
+            
         default: break
         }
         
