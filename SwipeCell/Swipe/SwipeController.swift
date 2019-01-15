@@ -98,10 +98,10 @@ class SwipeController: NSObject {
         swipeable.actionView?.removeFromSuperview()
         swipeable.actionView = nil
         
-        let actionView = SwipeActionView()  // TODO
+        let actionView = SwipeActionView()  // TODO: configure actionView
         actionView.backgroundColor = UIColor.blue
         actionView.translatesAutoresizingMaskIntoConstraints = false
-        
+        // set actionView delegate
         actionContainerView.addSubview(actionView)
         actionView.heightAnchor.constraint(equalTo: swipeable.heightAnchor).isActive = true
         actionView.widthAnchor.constraint(equalTo: swipeable.widthAnchor, multiplier: 2).isActive = true

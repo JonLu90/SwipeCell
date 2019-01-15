@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+protocol SwipeActionViewDelegate: class {
+    func swipeActionView(_ actionView: SwipeActionView, didSelect action: SwipeAction)
+}
+
 class SwipeActionView: UIView {
     
 //    var actionButton: SwipeActionButton
