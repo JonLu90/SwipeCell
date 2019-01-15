@@ -113,6 +113,9 @@ class SwipeController: NSObject {
             let normalizedVelocity = velocity.x * scrollRatio / distance
             
             animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity, completion: nil)
+            if !swipeable.state.isActive {
+                delegate?.didEndEditingSwipeable(self)
+            }
         default: break
         }
         
