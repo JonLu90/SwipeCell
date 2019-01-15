@@ -33,17 +33,8 @@ class SwipeActionView: UIView {
         backgroundColor.setFill()
         context?.fill(rect)
     }
-    
-    func setExpanded() {
-        // TODO
-        let expansionAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1.0, animations: nil)
-        expansionAnimator.addAnimations {
-            self.setNeedsLayout()
-            self.layoutIfNeeded()
-        }
-        expansionAnimator.startAnimation(afterDelay: 0)
-        
-    }
+    // for actionButton spring animation if swiped past half of the cell
+    func expandIfNeeded(feedback enabled: Bool = true) {}
 }
 
 class SwipeFeedback {

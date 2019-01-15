@@ -71,7 +71,7 @@ class SwipeController: NSObject {
             let translation = gesture.translation(in: target).x
             
             // prevent user able to swipe towards left for too much distance
-            if (translation + originalCenter - swipeable.bounds.midX) * (-1) > 0 {
+            if (translation + originalCenter - swipeable.bounds.midX) < 0 {
                 target.center.x = gesture.elasticTranslation(in: target, withLimit: .zero, fromOriginalCenter: CGPoint(x: originalCenter, y: 0)).x
                 swipeable.actionView?.visibleWidth = abs((swipeable as Swipeable).frame.minX)
                 scrollRatio = elasticScrollRatio
@@ -85,7 +85,7 @@ class SwipeController: NSObject {
             target.center.x = gesture.elasticTranslation(in: target, withLimit: CGSize(width: targetOffset, height: 0), fromOriginalCenter: CGPoint(x: originalCenter, y: 0), applyingRatio: 1.0).x
             
             swipeable.actionView?.visibleWidth = abs(actionContainerView.frame.minX)
-
+            swipeable.actionView?.expandIfNeeded()
         case .ended, .cancelled, .failed:
             guard let actionView = swipeable.actionView,
                 let actionContainerView = self.actionContainerView else { return }
