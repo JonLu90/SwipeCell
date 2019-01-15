@@ -65,7 +65,7 @@ class SwipeController: NSObject {
             guard swipeable.state.isActive else { return }
             
             if swipeable.state == .animatingToInitial {
-                let swipedCell = tableView?.swipeCells.first(where: { $0.state == .dragging || $0.state == .expanded })
+                let swipedCell = tableView?.swipeCells.first(where: { $0.state == .dragging || $0.state == .revealed })
                 if let swipedCell = swipedCell, swipedCell != self.swipeable { return }
             }
             let translation = gesture.translation(in: target).x
@@ -89,6 +89,9 @@ class SwipeController: NSObject {
         case .ended, .cancelled, .failed:
             guard let actionView = swipeable.actionView,
                 let actionContainerView = self.actionContainerView else { return }
+            if swipeable.state.isActive == false && swipeable.bounds.midX == target.center.x { return }
+            
+            swipeable.state = velocity.x < 0 && !actionView.expanded ? .initial : .revealed
             // if triggered for perform
             // else
             // TODO

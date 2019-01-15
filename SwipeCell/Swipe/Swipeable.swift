@@ -20,8 +20,8 @@ extension SwipeTableViewCell: Swipeable {}
 
 enum SwipeCellState: Int {
     case initial = 0
-    case expanded
     case dragging
+    case revealed // action button is revealed
     case animatingToInitial
     var isActive: Bool { return self != .initial }
 }
