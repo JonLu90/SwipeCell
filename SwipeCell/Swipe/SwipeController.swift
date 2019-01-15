@@ -24,6 +24,7 @@ class SwipeController: NSObject {
     var originalCenter: CGFloat = 0
     var animator: UIViewPropertyAnimator?
     var scrollRatio: CGFloat = 1.0
+    let elasticScrollRatio: CGFloat = 0.3
     lazy var panGestureRecognizer: UIPanGestureRecognizer = {
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gesture:)))
         return gesture
@@ -59,11 +60,23 @@ class SwipeController: NSObject {
                 configureActionView(with: action)
             }
         case .changed:
-            guard let actionView = swipeable.actionView, let actionContainerView = self.actionContainerView else  { return }
+            guard let actionView = swipeable.actionView,
+                let actionContainerView = self.actionContainerView else  { return }
             guard swipeable.state.isActive else { return }
             
+            if swipeable.state == .animatingToInitial {
+                let swipedCell = tableView?.swipeCells.first(where: { $0.state == .dragging || $0.state == .expanded })
+                if let swipedCell = swipedCell, swipedCell != self.swipeable { return }
+            }
             let translation = gesture.translation(in: target).x
-            print("translation : \(translation)")
+            
+            // prevent user able to swipe towards left for too much distance
+            if (translation + originalCenter - swipeable.bounds.midX) * (-1) > 0 {
+                target.center.x = gesture.elasticTranslation(in: target, withLimit: .zero, fromOriginalCenter: CGPoint(x: originalCenter, y: 0)).x
+                swipeable.actionView?.visibleWidth = abs((swipeable as Swipeable).frame.minX)
+                scrollRatio = elasticScrollRatio
+                return
+            }
             
             let targetOffset: CGFloat = 187.0 // TODO
             let currentOffset = abs(translation + originalCenter - swipeable.bounds.midX)
