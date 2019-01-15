@@ -17,11 +17,16 @@ protocol SwipeTableViewCellDelegate: class {
 
 class SwipeTableViewCell: UITableViewCell {
     
+    var delegate: SwipeTableViewCellDelegate?
     var state = SwipeCellState.initial
     var actionView: SwipeActionView?
     var swipeController: SwipeController!
     var tableView: UITableView?
+    var indexPath: IndexPath? {
+        return tableView?.indexPath(for: self)
+    }
     var panGestureRecognizer: UIGestureRecognizer {
+        
         return swipeController.panGestureRecognizer
     }
     
@@ -49,5 +54,10 @@ class SwipeTableViewCell: UITableViewCell {
                 // handle table pan
             }
         }
+    }
+    
+    private func reset() {
+        swipeController.reset()
+        clipsToBounds = false
     }
 }

@@ -28,6 +28,7 @@ class SwipeController: NSObject {
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gesture:)))
         return gesture
     }()
+    // var tapGesture
     
     init(swipeable: UIView & Swipeable, actionContainerView: UIView) {
         self.swipeable = swipeable
@@ -113,9 +114,14 @@ class SwipeController: NSObject {
         swipeable.state = .dragging
     }
     
-    private func stopAnimatorIfNeeded() {}
+    private func stopAnimatorIfNeeded() {
+        guard let animator = animator else { return }
+        if animator.isRunning {
+            animator.stopAnimation(true)
+        }
+    }
     
-    private func reset() {
+    public func reset() {
         swipeable?.state = .initial
         swipeable?.actionView?.removeFromSuperview()
         swipeable?.actionView = nil
