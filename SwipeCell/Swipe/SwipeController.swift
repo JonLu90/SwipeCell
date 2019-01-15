@@ -29,7 +29,10 @@ class SwipeController: NSObject {
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gesture:)))
         return gesture
     }()
-    // var tapGesture
+    lazy var tapGestureRecognizer: UITapGestureRecognizer = {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(gesture:)))
+        return gesture
+    }()
     
     init(swipeable: UIView & Swipeable, actionContainerView: UIView) {
         self.swipeable = swipeable
@@ -38,6 +41,11 @@ class SwipeController: NSObject {
         super.init()
         
         swipeable.addGestureRecognizer(panGestureRecognizer)
+        swipeable.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    @objc private func handleTap(gesture: UITapGestureRecognizer) {
+        hideActionView(animated: true)
     }
     
     @objc private func handlePan(gesture: UIPanGestureRecognizer) {
@@ -154,6 +162,23 @@ class SwipeController: NSObject {
         swipeable?.state = .initial
         swipeable?.actionView?.removeFromSuperview()
         swipeable?.actionView = nil
+    }
+    
+    private func hideActionView(animated: Bool, completion: ((Bool)->Void)? = nil) {
+        guard var swipeable = self.swipeable,
+            let actionContainerView = self.actionContainerView else { return }
+        guard swipeable.state == .revealed else { return }
+        guard let actionView = swipeable.actionView else { return }
+        
+        swipeable.state = .animatingToInitial
+        
+        let targetCenter = self.targetCenter(active: false)
+        
+        if animated {
+            animate(toOffset: targetCenter)
+        }
+        else {  }
+        
     }
     
     @available(iOS 10.0, *)

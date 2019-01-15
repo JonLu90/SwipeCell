@@ -144,11 +144,11 @@
 		EBF2296B21E8B80A008061F7 /* Swipe */ = {
 			isa = PBXGroup;
 			children = (
+				EBF2297621EC4182008061F7 /* SwipeToTrackAPIs.swift */,
 				EBF2296E21E8B86B008061F7 /* SwipeController.swift */,
 				EBF2296C21E8B827008061F7 /* Swipeable.swift */,
 				EBF2297021E93F07008061F7 /* SwipeActionView.swift */,
 				EBF2297421E942A5008061F7 /* SwipeAction.swift */,
-				EBF2297621EC4182008061F7 /* SwipeToTrackAPIs.swift */,
 				EBF2297C21EC7A13008061F7 /* SwipeTableViewCell.swift */,
 			);
 			path = Swipe;
