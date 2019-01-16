@@ -87,12 +87,13 @@ class SwipeController: NSObject {
                 return
             }
             
-            let targetOffset: CGFloat = 187.0 // TODO expose this setter API
+            let targetOffset: CGFloat = 187.0 // TODO expose this to a setter API
             let currentOffset = abs(translation + originalCenter - swipeable.bounds.midX)
             
             target.center.x = gesture.elasticTranslation(in: target, withLimit: CGSize(width: targetOffset, height: 0), fromOriginalCenter: CGPoint(x: originalCenter, y: 0), applyingRatio: 1.0).x
             
             swipeable.actionView?.visibleWidth = abs(actionContainerView.frame.minX)
+            print("actionView.isExpanded : \(actionView.isExpanded)")
             swipeable.actionView?.expandIfNeeded()
         case .ended, .cancelled, .failed:
             guard let actionView = swipeable.actionView,
@@ -104,9 +105,7 @@ class SwipeController: NSObject {
             if actionView.isExpanded {
                 // fire swipe action
             }
-            else {
-                
-            }
+            else {}
             
             let targetOffset: CGFloat = targetCenter(active: swipeable.state.isActive)
             let distance = targetOffset - actionContainerView.center.x
