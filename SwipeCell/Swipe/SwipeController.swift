@@ -147,7 +147,7 @@ class SwipeController: NSObject {
         let actionView = SwipeActionView()  // TODO: configure actionView
         actionView.backgroundColor = UIColor.blue
         actionView.translatesAutoresizingMaskIntoConstraints = false
-        // set actionView delegate
+        actionView.delegate = self
         actionContainerView.addSubview(actionView)
         actionView.heightAnchor.constraint(equalTo: swipeable.heightAnchor).isActive = true
         actionView.widthAnchor.constraint(equalTo: swipeable.widthAnchor, multiplier: 2).isActive = true
@@ -240,6 +240,12 @@ extension SwipeController: UIGestureRecognizerDelegate {
         }
         
         return true
+    }
+}
+
+extension SwipeController: SwipeActionViewDelegate {
+    func swipeActionView(_ actionView: SwipeActionView, didSelect action: SwipeAction) {
+        
     }
 }
 
