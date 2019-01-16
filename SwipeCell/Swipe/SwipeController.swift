@@ -87,7 +87,7 @@ class SwipeController: NSObject {
                 return
             }
             
-            let targetOffset: CGFloat = 187.0 // TODO expose this
+            let targetOffset: CGFloat = 187.0 // TODO expose this setter API
             let currentOffset = abs(translation + originalCenter - swipeable.bounds.midX)
             
             target.center.x = gesture.elasticTranslation(in: target, withLimit: CGSize(width: targetOffset, height: 0), fromOriginalCenter: CGPoint(x: originalCenter, y: 0), applyingRatio: 1.0).x
@@ -185,14 +185,13 @@ class SwipeController: NSObject {
         
         if animated {
             //animate(toOffset: targetCenter)
-            animate(duration: 1.0, toOffset: targetCenter, withInitialVelocity: 0) { (animatingPosition) in
+            animate(toOffset: targetCenter) { (animatingPosition) in
                 if animatingPosition == .end {
-                    print("animation is finished !")
+                    self.reset()
                 }
             }
         }
-        else {  }
-        
+        else {}
     }
     
     @available(iOS 10.0, *)
