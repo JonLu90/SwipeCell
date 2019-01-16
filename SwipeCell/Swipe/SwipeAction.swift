@@ -9,8 +9,15 @@
 import Foundation
 import UIKit
 
-class SwipeAction {
-    public var buttonTitle: String?
+struct SwipeAction {
+    public var actionHandler: ((SwipeAction, IndexPath)->Void)?
+    // private var triggeredStyle: actionTriggeredAnimationStyle
+    // TODO init
+}
+
+enum actionTriggeredAnimationStyle {
+    case fill
+    case bounce
 }
 
 class SwipeActionButton: UIButton {}
