@@ -184,7 +184,12 @@ class SwipeController: NSObject {
         let targetCenter = self.targetCenter(active: false)
         
         if animated {
-            animate(toOffset: targetCenter)
+            //animate(toOffset: targetCenter)
+            animate(duration: 1.0, toOffset: targetCenter, withInitialVelocity: 0) { (animatingPosition) in
+                if animatingPosition == .end {
+                    print("animation is finished !")
+                }
+            }
         }
         else {  }
         
@@ -205,18 +210,20 @@ class SwipeController: NSObject {
                 let parameters = UISpringTimingParameters(mass: 1.0, stiffness: 100, damping: 18, initialVelocity: velocity)
                 return UIViewPropertyAnimator(duration: duration, timingParameters: parameters)
             }
-            else { return UIViewPropertyAnimator(duration: duration, dampingRatio: 1.0, animations: nil) }
+            else {
+                return UIViewPropertyAnimator(duration: duration, dampingRatio: 1.0, animations: nil)
+            }
         }()
         
         animator.addAnimations {
             guard let swipeable = self.swipeable,
-                let actionContainerView = self.actionContainerView else { return }
+                  let actionContainerView = self.actionContainerView else { return }
             
             actionContainerView.center = CGPoint(x: offset, y: actionContainerView.center.y)
             swipeable.actionView?.visibleWidth = abs(actionContainerView.frame.minX)
             swipeable.layoutIfNeeded()
         }
-
+        
         if let completion = completion {
             animator.addCompletion(completion)
         }
@@ -246,12 +253,10 @@ extension UIPanGestureRecognizer {
                             applyingRatio ratio: CGFloat = 0.20) -> CGPoint
     {
         let translation = self.translation(in: view)
-        
         guard let sourceView = self.view else { return translation }
         
         let updatedCenter = CGPoint(x: center.x + translation.x, y: center.y + translation.y)
         let distanceFromCenter = CGSize(width: abs(updatedCenter.x - sourceView.bounds.midX), height: abs(updatedCenter.y - sourceView.bounds.midY))
-        
         let inverseRatio = 1.0 - ratio
         let scale: (x: CGFloat, y: CGFloat) = (updatedCenter.x < sourceView.bounds.midX ? -1 : 1, updatedCenter.y < sourceView.bounds.midY ? -1 : 1)
         let x = updatedCenter.x - (distanceFromCenter.width > limit.width ? inverseRatio * (distanceFromCenter.width - limit.width) * scale.x : 0)
