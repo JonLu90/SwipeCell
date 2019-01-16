@@ -194,7 +194,7 @@ class SwipeController: NSObject {
     private func animate(duration: Double = 0.5,
                          toOffset offset: CGFloat,
                          withInitialVelocity velocity: CGFloat = 0,
-                         completion: ((Bool) -> Void)? = nil)
+                         completion: ((UIViewAnimatingPosition)->Void)? = nil)
     {
         stopAnimatorIfNeeded()
         swipeable?.layoutIfNeeded()
@@ -217,16 +217,13 @@ class SwipeController: NSObject {
             swipeable.layoutIfNeeded()
         }
 
-        // TODO
-//        if let completion = completion {
-//            animator.addCompletion(completion)
-//        }
-        
+        if let completion = completion {
+            animator.addCompletion(completion)
+        }
         self.animator = animator
         
         animator.startAnimation()
     }
-    
 }
 
 extension SwipeController: UIGestureRecognizerDelegate {
