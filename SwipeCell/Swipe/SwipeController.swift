@@ -27,6 +27,7 @@ class SwipeController: NSObject {
     let elasticScrollRatio: CGFloat = 0.3
     lazy var panGestureRecognizer: UIPanGestureRecognizer = {
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gesture:)))
+        gesture.delegate = self
         return gesture
     }()
     lazy var tapGestureRecognizer: UITapGestureRecognizer = {
@@ -86,9 +87,8 @@ class SwipeController: NSObject {
                 return
             }
             
-            let targetOffset: CGFloat = 187.0 // TODO
+            let targetOffset: CGFloat = 187.0 // TODO expose this
             let currentOffset = abs(translation + originalCenter - swipeable.bounds.midX)
-            print("currentOffset : \(currentOffset)")
             
             target.center.x = gesture.elasticTranslation(in: target, withLimit: CGSize(width: targetOffset, height: 0), fromOriginalCenter: CGPoint(x: originalCenter, y: 0), applyingRatio: 1.0).x
             
@@ -120,6 +120,12 @@ class SwipeController: NSObject {
         }
         
         
+    }
+    
+    private func handleTablePan(gesture: UIPanGestureRecognizer) {
+        if gesture.state == .began {
+            
+        }
     }
     
     private func targetCenter(active: Bool) -> CGFloat {
@@ -221,6 +227,19 @@ class SwipeController: NSObject {
         animator.startAnimation()
     }
     
+}
+
+extension SwipeController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer == panGestureRecognizer {
+            let gestureRecognizer = gestureRecognizer as! UIPanGestureRecognizer
+            let view = gestureRecognizer.view
+            let translation = gestureRecognizer.translation(in: view)
+            return abs(translation.y) <= abs(translation.x)  // swipecell only works if swipe left/right
+        }
+        
+        return true
+    }
 }
 
 extension UIPanGestureRecognizer {

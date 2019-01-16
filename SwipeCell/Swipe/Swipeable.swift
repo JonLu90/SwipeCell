@@ -12,7 +12,7 @@ protocol Swipeable {
     var state: SwipeCellState { get set }
     var actionView: SwipeActionView? { get set }
     var frame: CGRect { get }
-    //var indexPath: IndexPath? { get }
+    var indexPath: IndexPath? { get }
     var panGestureRecognizer: UIGestureRecognizer { get }
 }
 
