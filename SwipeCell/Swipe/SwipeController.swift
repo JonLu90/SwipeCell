@@ -180,18 +180,16 @@ class SwipeController: NSObject {
         guard let actionView = swipeable.actionView else { return }
         
         swipeable.state = .animatingToInitial
-        
         let targetCenter = self.targetCenter(active: false)
         
         if animated {
-            //animate(toOffset: targetCenter)
             animate(toOffset: targetCenter) { (animatingPosition) in
                 if animatingPosition == .end {
                     self.reset()
                 }
             }
-        }
-        else {}
+        } else {}
+        delegate?.didEndEditingSwipeable(self)
     }
     
     @available(iOS 10.0, *)
