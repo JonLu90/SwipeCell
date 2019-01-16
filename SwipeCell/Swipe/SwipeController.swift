@@ -93,6 +93,7 @@ class SwipeController: NSObject {
             target.center.x = gesture.elasticTranslation(in: target, withLimit: CGSize(width: targetOffset, height: 0), fromOriginalCenter: CGPoint(x: originalCenter, y: 0), applyingRatio: 1.0).x
             
             swipeable.actionView?.visibleWidth = abs(actionContainerView.frame.minX)
+            actionView.isExpanded = actionView.visibleWidth/swipeable.bounds.width > 0.5
             print("actionView.isExpanded : \(actionView.isExpanded)")
             swipeable.actionView?.expandIfNeeded()
         case .ended, .cancelled, .failed:
