@@ -11,7 +11,7 @@ import UIKit
 
 struct SwipeAction {
     public var actionHandler: ((SwipeAction, IndexPath)->Void)?
-    // private var triggeredStyle: actionTriggeredAnimationStyle
+    // private var style: actionTriggeredAnimationStyle
     // TODO init
 }
 

@@ -63,8 +63,8 @@ class SwipeController: NSObject {
             originalCenter = target.center.x
             
             if swipeable.state == .initial || swipeable.state == .animatingToInitial {
-                //guard let action = delegate?.editActionForSwipeable(self) else { return }  TODO
-                let action = SwipeAction()
+                //guard let action = delegate?.editActionForSwipeable(self) else { return }
+                let action = SwipeAction() // for testing only, delete this and uncomment above
                 delegate?.willBeginEditingSwipeable(self)
                 configureActionView(with: action)
             }
@@ -87,7 +87,7 @@ class SwipeController: NSObject {
                 return
             }
             
-            let targetOffset: CGFloat = 187.0 // TODO expose this to a setter API
+            let targetOffset: CGFloat = actionView.buttonWidth // TODO expose this to a setter API
             let currentOffset = abs(translation + originalCenter - swipeable.bounds.midX)
             
             target.center.x = gesture.elasticTranslation(in: target, withLimit: CGSize(width: targetOffset, height: 0), fromOriginalCenter: CGPoint(x: originalCenter, y: 0), applyingRatio: 1.0).x
@@ -148,6 +148,7 @@ class SwipeController: NSObject {
         actionView.backgroundColor = UIColor.blue
         actionView.translatesAutoresizingMaskIntoConstraints = false
         actionView.delegate = self
+        // those configure above should be inside init() func depends on action
         actionContainerView.addSubview(actionView)
         actionView.heightAnchor.constraint(equalTo: swipeable.heightAnchor).isActive = true
         actionView.widthAnchor.constraint(equalTo: swipeable.widthAnchor, multiplier: 2).isActive = true

@@ -26,7 +26,7 @@ class SwipeActionView: UIView {
         }
     }
     var delegate: SwipeActionViewDelegate?
-    var buttonWidth: CGFloat = 115
+    var buttonWidth: CGFloat = 50
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
