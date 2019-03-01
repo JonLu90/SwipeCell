@@ -95,7 +95,7 @@ class SwipeController: NSObject {
             swipeable.actionView?.visibleWidth = abs(actionContainerView.frame.minX)
             actionView.isExpanded = actionView.visibleWidth/swipeable.bounds.width > 0.5
             print("actionView.isExpanded : \(actionView.isExpanded)")
-            swipeable.actionView?.expandIfNeeded()
+            swipeable.actionView?.expandIfNeeded() // for the button expand animation if drag past center
         case .ended, .cancelled, .failed:
             guard let actionView = swipeable.actionView,
                 let actionContainerView = self.actionContainerView else { return }
@@ -105,6 +105,7 @@ class SwipeController: NSObject {
             
             if actionView.isExpanded {
                 // fire swipe action
+                print("Fill animation, fire action")
             }
             else {}
             

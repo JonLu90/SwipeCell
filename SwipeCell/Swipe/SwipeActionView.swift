@@ -13,6 +13,42 @@ protocol SwipeActionViewDelegate: class {
     func swipeActionView(_ actionView: SwipeActionView, didSelect action: SwipeAction)
 }
 
+protocol SwipeTransitionLayout {
+    func container(view: UIView, didChangeVisibleWidthWithContext context: ActionViewLayoutContext)
+    func layout(view: UIView, with context: ActionViewLayoutContext)
+    func visibleWidthForView(with context: ActionViewLayoutContext) -> CGFloat
+}
+
+struct ActionViewLayoutContext {
+    let contentSize: CGSize
+    let visibleWidth: CGFloat
+    let minimumButtonWidth: CGFloat
+    
+    init(contentSize: CGSize,
+         visibleWidth: CGFloat,
+         minimumButtonWidth: CGFloat) {
+        self.contentSize = contentSize
+        self.visibleWidth = visibleWidth
+        self.minimumButtonWidth = minimumButtonWidth
+    }
+}
+
+class RevealTransitionLayout: SwipeTransitionLayout {
+    func container(view: UIView, didChangeVisibleWidthWithContext context: ActionViewLayoutContext) {
+        let width = context.minimumButtonWidth
+        view.bounds.origin.x = width - context.visibleWidth
+    }
+    
+    func visibleWidthForView(with context: ActionViewLayoutContext) -> CGFloat {
+        
+    }
+    
+    func layout(view: UIView, with context: ActionViewLayoutContext) {
+        let diff = context.visibleWidth - context.contentSize.width
+        view.frame.origin.x = (CGFloat(0) * context.contentSize.width / CGFloat(1) + diff) * 1
+    }
+}
+
 class SwipeActionView: UIView {
     
 //    var actionButton: SwipeActionButton
@@ -26,7 +62,7 @@ class SwipeActionView: UIView {
         }
     }
     var delegate: SwipeActionViewDelegate?
-    var buttonWidth: CGFloat = 50
+    var buttonWidth: CGFloat = 120
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)

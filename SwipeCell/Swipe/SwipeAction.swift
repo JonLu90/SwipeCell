@@ -19,6 +19,3 @@ enum actionTriggeredAnimationStyle {
     case fill
     case bounce
 }
-
-class SwipeActionButton: UIButton {}
-
