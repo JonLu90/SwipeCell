@@ -53,6 +53,7 @@ class SwipeActionView: UIView {
     
     var actionButton: SwipeActionButton
     var minimumButtonWidth: CGFloat = 0
+    let swipeAction: SwipeAction
 //    var feebackGenerator: SwipeFeedback
 //    consider safeAreaMargin
     public var isExpanded: Bool = false  // set true if cell is dragged past center
@@ -77,6 +78,15 @@ class SwipeActionView: UIView {
     }
     // for actionButton spring animation if swiped past half of the cell
     func expandIfNeeded(feedback enabled: Bool = true) {}
+    
+    func addButton(for action: SwipeAction, withMaximum size: CGSize, contentEdgeInsets: UIEdgeInsets) -> SwipeActionButton {
+        let actionButton = SwipeActionButton(action: action)
+        actionButton.addTarget(self, action: #selector(actionButtonTapped(button:)), for: .touchUpInside)
+    }
+    
+    @objc func actionButtonTapped(button: SwipeActionButton) {
+        delegate?.swipeActionView(self, didSelect: swipeAction)
+    }
 }
 
 class SwipeActionButtonWrapperView: UIView {
