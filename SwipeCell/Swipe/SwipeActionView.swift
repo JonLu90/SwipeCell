@@ -51,19 +51,22 @@ class RevealTransitionLayout: SwipeTransitionLayout {
 
 class SwipeActionView: UIView {
     
-//    var actionButton: SwipeActionButton
-//    var buttonWidth: CGFloat
+    var actionButton: SwipeActionButton
+    var minimumButtonWidth: CGFloat = 0
 //    var feebackGenerator: SwipeFeedback
+//    consider safeAreaMargin
     public var isExpanded: Bool = false  // set true if cell is dragged past center
+    var delegate: SwipeActionViewDelegate?
+    var buttonWidth: CGFloat = 120
+    let transitionLayout: SwipeTransitionLayout
+    var layoutContext: ActionViewLayoutContext
+    var expansionDelegate: SwipeExpanding?
     var visibleWidth: CGFloat = 0 {
         didSet {
             setNeedsLayout()
             layoutIfNeeded()
         }
     }
-    var delegate: SwipeActionViewDelegate?
-    var buttonWidth: CGFloat = 120
-    
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         
@@ -74,6 +77,11 @@ class SwipeActionView: UIView {
     }
     // for actionButton spring animation if swiped past half of the cell
     func expandIfNeeded(feedback enabled: Bool = true) {}
+}
+
+class SwipeActionButtonWrapperView: UIView {
+    let contentRect: CGRect
+    var backgroundColor: UIColor?
 }
 
 class SwipeFeedback {
