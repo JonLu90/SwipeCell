@@ -82,6 +82,13 @@ class SwipeActionView: UIView {
     func addButton(for action: SwipeAction, withMaximum size: CGSize, contentEdgeInsets: UIEdgeInsets) -> SwipeActionButton {
         let actionButton = SwipeActionButton(action: action)
         actionButton.addTarget(self, action: #selector(actionButtonTapped(button:)), for: .touchUpInside)
+        actionButton.autoresizingMask = [.flexibleHeight, .flexibleRightMargin]
+        // actionButton.contentEdgeInsets =
+        
+        
+        
+        
+        return actionButton
     }
     
     @objc func actionButtonTapped(button: SwipeActionButton) {
@@ -91,7 +98,23 @@ class SwipeActionView: UIView {
 
 class SwipeActionButtonWrapperView: UIView {
     let contentRect: CGRect
-    var backgroundColor: UIColor?
+    var actionBackgroundColor: UIColor?
+    
+    init(frame: CGRect, action: SwipeAction, contentWidth: CGFloat) {
+        contentRect = CGRect(x: 0, y: 0, width: contentWidth, height: frame.height)
+        super.init(frame: frame)
+        configureBackgroundColor(with: action)
+    }
+    
+    func configureBackgroundColor(with action: SwipeAction) {
+        // TODO
+        let defaultColor = UIColor.blue
+        actionBackgroundColor = defaultColor
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 class SwipeFeedback {
