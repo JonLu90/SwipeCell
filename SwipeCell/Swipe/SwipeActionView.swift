@@ -38,26 +38,25 @@ struct ActionViewLayoutContext {
     }
 }
 // TODO
-class RevealTransitionLayout: SwipeTransitionLayout {
-    func container(view: UIView, didChangeVisibleWidthWithContext context: ActionViewLayoutContext) {
-        let width = context.minimumButtonWidth
-        view.bounds.origin.x = width - context.visibleWidth
-    }
-    
-    func visibleWidthForView(with context: ActionViewLayoutContext) -> CGFloat {
-        
-    }
-    
-    func layout(view: UIView, with context: ActionViewLayoutContext) {
-        let diff = context.visibleWidth - context.contentSize.width
-        view.frame.origin.x = (CGFloat(0) * context.contentSize.width / CGFloat(1) + diff) * 1
-    }
-}
+//class RevealTransitionLayout: SwipeTransitionLayout {
+//    func container(view: UIView, didChangeVisibleWidthWithContext context: ActionViewLayoutContext) {
+//        let width = context.minimumButtonWidth
+//        view.bounds.origin.x = width - context.visibleWidth
+//    }
+//
+//    // TODO
+//    // func visibleWidthForView(with context: ActionViewLayoutContext) -> CGFloat {}
+//
+//    func layout(view: UIView, with context: ActionViewLayoutContext) {
+//        let diff = context.visibleWidth - context.contentSize.width
+//        view.frame.origin.x = (CGFloat(0) * context.contentSize.width / CGFloat(1) + diff) * 1
+//    }
+//}
 
 class SwipeActionView: UIView {
-    var actionButton: SwipeActionButton
+    //var actionButton: SwipeActionButton
     var minimumButtonWidth: CGFloat = 0
-    let swipeAction: SwipeAction
+    let action: SwipeAction
     //    TODO: SwipeAnimator
     //    var expansionAnimator: SwipeAnimator?
     //    TODO: feebackGenerator: SwipeFeedback
@@ -65,20 +64,20 @@ class SwipeActionView: UIView {
     public var isExpanded: Bool = false  // set true if cell is dragged past center
     var delegate: SwipeActionViewDelegate?
     var buttonWidth: CGFloat = 120
-    let transitionLayout: SwipeTransitionLayout
-    var layoutContext: ActionViewLayoutContext
+    // let transitionLayout: SwipeTransitionLayout
+    // var layoutContext: ActionViewLayoutContext
     var expansionDelegate: SwipeExpanding?
     var visibleWidth: CGFloat = 0 {
         didSet {
             visibleWidth = max(0, visibleWidth)
-            let preLayoutVisibleWidth = transitionLayout.visibleWidthForView(with: layoutContext)
-            layoutContext = ActionViewLayoutContext.newContext(for: self)
-            transitionLayout.container(view: self, didChangeVisibleWidthWithContext: layoutContext)
+    //        let preLayoutVisibleWidth = transitionLayout.visibleWidthForView(with: layoutContext)
+    //        layoutContext = ActionViewLayoutContext.newContext(for: self)
+    //        transitionLayout.container(view: self, didChangeVisibleWidthWithContext: layoutContext)
             
             setNeedsLayout()
             layoutIfNeeded()
             
-            notifyVisibleWidthChanged(oldWidth: preLayoutVisibleWidth, newWidth: transitionLayout.visibleWidthForView(with: layoutContext))
+    //        notifyVisibleWidthChanged(oldWidth: preLayoutVisibleWidth, newWidth: transitionLayout.visibleWidthForView(with: layoutContext))
         }
     }
     var contentSize: CGSize {
@@ -87,7 +86,21 @@ class SwipeActionView: UIView {
     private(set) var expanded: Bool = false
     // TODO: var expandableAction: SwipeAction
     
-    // TODO: init()
+    init(action: SwipeAction) {
+        self.action = action
+        super.init(frame: .zero)
+        // jondebug
+        let action = SwipeAction()
+        let frame = CGRect(origin: .zero, size: CGSize(width: bounds.width, height: bounds.height))
+        let wrapperView = SwipeActionButtonWrapperView(frame: frame, action: action, contentWidth: minimumButtonWidth)
+        addSubview(wrapperView)
+        wrapperView.translatesAutoresizingMaskIntoConstraints = false
+        wrapperView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        wrapperView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        
+        wrapperView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        wrapperView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+    }
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
@@ -129,20 +142,25 @@ class SwipeActionView: UIView {
         bottomConstraint.priority = contentEdgeInsets.bottom == 0 ? .required : .defaultHigh
         bottomConstraint.isActive = true
         
-        if contentEdgeInsets != .zero {
-            let heightConstraint = wrapperView.heightAnchor.constraint(greaterThanOrEqualToConstant: button.intrinsicContentSize.height)
-            heightConstraint.priority = .required
-            heightConstraint.isActive = true
-        }
+        // button related
+//        if contentEdgeInsets != .zero {
+//            let heightConstraint = wrapperView.heightAnchor.constraint(greaterThanOrEqualToConstant: button.intrinsicContentSize.height)
+//            heightConstraint.priority = .required
+//            heightConstraint.isActive = true
+//        }
         
         return actionButton
     }
     
     @objc func actionButtonTapped(button: SwipeActionButton) {
-        delegate?.swipeActionView(self, didSelect: swipeAction)
+        // delegate?.swipeActionView(self, didSelect: swipeAction)
     }
     
     func notifyVisibleWidthChanged(oldWidth: CGFloat, newWidth: CGFloat) {}
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 class SwipeActionButtonWrapperView: UIView {
@@ -157,8 +175,18 @@ class SwipeActionButtonWrapperView: UIView {
     
     func configureBackgroundColor(with action: SwipeAction) {
         // TODO
-        let defaultColor = UIColor.blue
+        let defaultColor = UIColor.green
         actionBackgroundColor = defaultColor
+    }
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        
+        if let actionBackgroundColor = self.actionBackgroundColor,
+            let context = UIGraphicsGetCurrentContext() {
+            actionBackgroundColor.setFill()
+            context.fill(rect)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

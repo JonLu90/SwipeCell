@@ -64,7 +64,7 @@ class SwipeController: NSObject {
             
             if swipeable.state == .initial || swipeable.state == .animatingToInitial {
                 //guard let action = delegate?.editActionForSwipeable(self) else { return }
-                let action = SwipeAction() // for testing only, delete this and uncomment above
+                let action = SwipeAction()// for testing only, delete this and uncomment above
                 delegate?.willBeginEditingSwipeable(self)
                 configureActionView(with: action)
             }
@@ -145,7 +145,7 @@ class SwipeController: NSObject {
         swipeable.actionView?.removeFromSuperview()
         swipeable.actionView = nil
         
-        let actionView = SwipeActionView()  // TODO: configure actionView
+        let actionView = SwipeActionView(action: action)  // TODO: configure actionView
         actionView.backgroundColor = UIColor.blue
         actionView.translatesAutoresizingMaskIntoConstraints = false
         actionView.delegate = self
