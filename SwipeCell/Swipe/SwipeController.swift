@@ -145,7 +145,7 @@ class SwipeController: NSObject {
         swipeable.actionView?.removeFromSuperview()
         swipeable.actionView = nil
         
-        let actionView = SwipeActionView(action: action)  // TODO: configure actionView
+        let actionView = SwipeActionView(action: action, maxSize: swipeable.bounds.size)  // TODO: configure actionView
         actionView.backgroundColor = UIColor.blue
         actionView.translatesAutoresizingMaskIntoConstraints = false
         actionView.delegate = self

@@ -9,11 +9,14 @@
 import UIKit
 
 class SwipeActionButton: UIButton {
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: 120, height: 100)
+    }
     convenience init(action: SwipeAction) {
         self.init(frame: .zero)
         
         contentHorizontalAlignment = .center
-        tintColor = .white
+        tintColor = .black
         titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         titleLabel?.textAlignment = .center
         titleLabel?.lineBreakMode = .byTruncatingTail
