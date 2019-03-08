@@ -37,21 +37,21 @@ struct ActionViewLayoutContext {
                                        minimumButtonWidth: actionView.minimumButtonWidth)
     }
 }
-// TODO
-//class RevealTransitionLayout: SwipeTransitionLayout {
-//    func container(view: UIView, didChangeVisibleWidthWithContext context: ActionViewLayoutContext) {
-//        let width = context.minimumButtonWidth
-//        view.bounds.origin.x = width - context.visibleWidth
-//    }
-//
-//    // TODO
-//    // func visibleWidthForView(with context: ActionViewLayoutContext) -> CGFloat {}
-//
-//    func layout(view: UIView, with context: ActionViewLayoutContext) {
-//        let diff = context.visibleWidth - context.contentSize.width
-//        view.frame.origin.x = (CGFloat(0) * context.contentSize.width / CGFloat(1) + diff) * 1
-//    }
-//}
+
+class RevealTransisionLayout: SwipeTransitionLayout {
+    func container(view: UIView, didChangeVisibleWidthWithContext context: ActionViewLayoutContext) {
+        let width = context.minimumButtonWidth
+        view.bounds.origin.x = (width - context.visibleWidth) * (-1)
+    }
+    func visibleWidthForView(with context: ActionViewLayoutContext) -> CGFloat {
+        // TODO: verify
+        return max(0, min(context.minimumButtonWidth, context.visibleWidth))
+        
+    }
+    func layout(view: UIView, with context: ActionViewLayoutContext) {
+        view.frame.origin.x = 0
+    }
+}
 
 class SwipeActionView: UIView {
     let actionButton: SwipeActionButton
@@ -63,15 +63,15 @@ class SwipeActionView: UIView {
     public var isExpanded: Bool = false  // set true if cell is dragged past center
     var delegate: SwipeActionViewDelegate?
     var buttonWidth: CGFloat = 120
-    // let transitionLayout: SwipeTransitionLayout
-    // var layoutContext: ActionViewLayoutContext
+    let transitionLayout: SwipeTransitionLayout
+    var layoutContext: ActionViewLayoutContext
     var expansionDelegate: SwipeExpanding?
     var visibleWidth: CGFloat = 0 {
         didSet {
             visibleWidth = max(0, visibleWidth)
-    //        let preLayoutVisibleWidth = transitionLayout.visibleWidthForView(with: layoutContext)
-    //        layoutContext = ActionViewLayoutContext.newContext(for: self)
-    //        transitionLayout.container(view: self, didChangeVisibleWidthWithContext: layoutContext)
+            let preLayoutVisibleWidth = transitionLayout.visibleWidthForView(with: layoutContext)
+            layoutContext = ActionViewLayoutContext.newContext(for: self)
+            transitionLayout.container(view: self, didChangeVisibleWidthWithContext: layoutContext)
             
             setNeedsLayout()
             layoutIfNeeded()
@@ -92,6 +92,9 @@ class SwipeActionView: UIView {
         actionButton.contentEdgeInsets = .zero
         actionButton.tintColor = .black
         actionButton.setTitle("Track me !", for: .normal)
+        
+        transitionLayout = RevealTransisionLayout()
+        layoutContext = ActionViewLayoutContext()
         
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
@@ -129,45 +132,9 @@ class SwipeActionView: UIView {
     // for actionButton spring animation if swiped past half of the cell
     func expandIfNeeded(feedback enabled: Bool = true) {}
     
-    func addButton(for action: SwipeAction,
-                   withMaximum size: CGSize,
-                   contentEdgeInsets: UIEdgeInsets) -> SwipeActionButton {
-        let actionButton = SwipeActionButton(action: action)
-        actionButton.addTarget(self, action: #selector(actionButtonTapped(button:)), for: .touchUpInside)
-        actionButton.autoresizingMask = [.flexibleHeight, .flexibleRightMargin]
-        // actionButton.contentEdgeInsets =
-        actionButton.backgroundColor = .black
-        actionButton.tintColor = UIColor.black
-        let frame = CGRect(origin: .zero, size: CGSize(width: bounds.width, height: bounds.height))
-        let buttonWrapperView = SwipeActionButtonWrapperView(frame: frame, action: action, contentWidth: minimumButtonWidth)
-        buttonWrapperView.translatesAutoresizingMaskIntoConstraints = false
-        actionButton.frame = buttonWrapperView.contentRect
-        buttonWrapperView.addSubview(actionButton)
-        addSubview(buttonWrapperView)
-        
-        buttonWrapperView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        buttonWrapperView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        
-        let topConstraint = buttonWrapperView.topAnchor.constraint(equalTo: topAnchor, constant: contentEdgeInsets.top)
-        topConstraint.priority = contentEdgeInsets.top == 0 ? .required : .defaultHigh
-        topConstraint.isActive = true
-        
-        let bottomConstraint = buttonWrapperView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1 * contentEdgeInsets.bottom)
-        bottomConstraint.priority = contentEdgeInsets.bottom == 0 ? .required : .defaultHigh
-        bottomConstraint.isActive = true
-        
-        // button related
-        //        if contentEdgeInsets != .zero {
-        //            let heightConstraint = wrapperView.heightAnchor.constraint(greaterThanOrEqualToConstant: button.intrinsicContentSize.height)
-        //            heightConstraint.priority = .required
-        //            heightConstraint.isActive = true
-        //        }
-        
-        return actionButton
-    }
-    
     @objc func actionButtonTapped(button: SwipeActionButton) {
         // delegate?.swipeActionView(self, didSelect: swipeAction)
+        print("button tapped !")
     }
     
     func notifyVisibleWidthChanged(oldWidth: CGFloat, newWidth: CGFloat) {}

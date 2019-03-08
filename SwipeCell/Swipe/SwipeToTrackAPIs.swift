@@ -17,3 +17,7 @@ extension UITableView {
 //        swipeCells.forEach { $0.hideSwipe(animated: true) }
 //    }
 }
+
+
+// TODO
+// SwipeCell Settings: UI, button size, ...

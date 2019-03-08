@@ -17,6 +17,10 @@ struct SwipeAction {
     // private var style: actionTriggeredAnimationStyle
     // TODO init
     // TODO: completion handler
+    
+    public func actionFulfill() {
+        // completion handler
+    }
 }
 
 enum actionTriggeredAnimationStyle {
