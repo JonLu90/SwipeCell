@@ -9,9 +9,9 @@
 import UIKit
 
 class SwipeActionButton: UIButton {
-    override var intrinsicContentSize: CGSize {
-        return CGSize(width: 120, height: 100)
-    }
+//    override var intrinsicContentSize: CGSize {
+//        return CGSize(width: 120, height: 100)
+//    }
     convenience init(action: SwipeAction) {
         self.init(frame: .zero)
         

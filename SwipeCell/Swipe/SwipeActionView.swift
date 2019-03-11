@@ -46,7 +46,6 @@ class RevealTransisionLayout: SwipeTransitionLayout {
     func visibleWidthForView(with context: ActionViewLayoutContext) -> CGFloat {
         // TODO: verify
         return max(0, min(context.minimumButtonWidth, context.visibleWidth))
-        
     }
     func layout(view: UIView, with context: ActionViewLayoutContext) {
         view.frame.origin.x = 0
@@ -75,10 +74,12 @@ class SwipeActionView: UIView {
             
             setNeedsLayout()
             layoutIfNeeded()
-            
+            // TODO :
     //        notifyVisibleWidthChanged(oldWidth: preLayoutVisibleWidth, newWidth: transitionLayout.visibleWidthForView(with: layoutContext))
         }
     }
+    // TODO :
+    // depends on expanding
     var contentSize: CGSize {
         return CGSize(width: visibleWidth, height: bounds.height)
     }
@@ -97,6 +98,7 @@ class SwipeActionView: UIView {
         layoutContext = ActionViewLayoutContext()
         
         super.init(frame: .zero)
+        clipsToBounds = true
         translatesAutoresizingMaskIntoConstraints = false
         
         actionButton.addTarget(self, action: #selector(actionButtonTapped(button:)), for: .touchUpInside)
@@ -113,12 +115,7 @@ class SwipeActionView: UIView {
         buttonWrapperView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         buttonWrapperView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         actionButton.frame = buttonWrapperView.contentRect
-        //actionButton.translatesAutoresizingMaskIntoConstraints = false
         actionButton.autoresizingMask = [.flexibleLeftMargin, .flexibleHeight]
-        //actionButton.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        //actionButton.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        //actionButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        //actionButton.topAnchor.constraint(equalTo: topAnchor).isActive = true
     }
     
     override func draw(_ rect: CGRect) {
@@ -141,6 +138,15 @@ class SwipeActionView: UIView {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setActionButtonExpansion(expanded: Bool, feedback: Bool) {
+        guard self.expanded != expanded else { return }
+        
+        self.expanded = expanded
+        // TODO: Feedback
+        
+        
     }
 }
 
