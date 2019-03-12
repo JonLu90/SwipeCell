@@ -94,7 +94,12 @@ class SwipeController: NSObject {
             
             swipeable.actionView?.visibleWidth = abs(actionContainerView.frame.minX)
             actionView.isExpanded = actionView.visibleWidth/swipeable.bounds.width > 0.5
-            print("actionView.isExpanded : \(actionView.isExpanded)")
+            
+            if actionView.isExpanded {
+                print("actionView.isExpanded : \(actionView.isExpanded)")
+                actionView.setActionButtonExpansion(expanded: true, feedback: false)
+            }
+            
             swipeable.actionView?.expandIfNeeded() // for the button expand animation if drag past center
         case .ended, .cancelled, .failed:
             guard let actionView = swipeable.actionView,

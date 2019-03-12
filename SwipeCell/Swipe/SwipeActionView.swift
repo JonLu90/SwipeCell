@@ -140,10 +140,10 @@ class SwipeActionView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setActionButtonExpansion(expanded: Bool, feedback: Bool) {
-        guard self.expanded != expanded else { return }
+    func setActionButtonExpansion(expanded: Bool, feedback: Bool = false) {
+        //guard self.expanded != expanded else { return }
         
-        self.expanded = expanded
+        //self.expanded = expanded
         
         // TODO: Feedback
         
@@ -151,7 +151,21 @@ class SwipeActionView: UIView {
             expansionAnimator?.stopAnimation(true)
         }
         // ios 10 only
-        expansionAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1.0)
+        expansionAnimator = UIViewPropertyAnimator(duration: 0.1, dampingRatio: 1.0)
+        
+        expansionAnimator?.addAnimations {
+            self.actionButton.center.x = self.bounds.maxX - 60
+            self.setNeedsLayout()
+            self.layoutIfNeeded()
+        }
+        
+        expansionAnimator?.startAnimation()
+        
+        triggerExpansion(expanded)
+    }
+    
+    func triggerExpansion(_ expanded: Bool) {
+        expansionDelegate?.actionButton(actionButton, didChange: expanded)
     }
 }
 
