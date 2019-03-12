@@ -56,7 +56,7 @@ class SwipeActionView: UIView {
     let actionButton: SwipeActionButton
     var minimumButtonWidth: CGFloat = 0
     //    TODO: SwipeAnimator
-    //    var expansionAnimator: SwipeAnimator?
+    var expansionAnimator: SwipeAnimator?
     //    TODO: feebackGenerator: SwipeFeedback
     //    TODO: consider safeAreaMargin
     public var isExpanded: Bool = false  // set true if cell is dragged past center
@@ -144,9 +144,14 @@ class SwipeActionView: UIView {
         guard self.expanded != expanded else { return }
         
         self.expanded = expanded
+        
         // TODO: Feedback
         
-        
+        if expansionAnimator?.isRunning == true {
+            expansionAnimator?.stopAnimation(true)
+        }
+        // ios 10 only
+        expansionAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1.0)
     }
 }
 

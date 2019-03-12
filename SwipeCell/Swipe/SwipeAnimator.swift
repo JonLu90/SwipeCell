@@ -6,7 +6,7 @@
 //  Copyright © 2019 Jon Lu. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 protocol SwipeAnimator {
     var isRunning: Bool { get }
@@ -19,3 +19,11 @@ protocol SwipeAnimator {
 
 //TODO: extenion of UIViewPropertyAnimtor
 // addCompletion
+
+extension UIViewPropertyAnimator: SwipeAnimator {
+    func addCompletion(completion: @escaping (Bool) -> Void) {
+        addCompletion { (position) in
+            completion(position == .end)
+        }
+    }
+}
