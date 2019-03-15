@@ -85,7 +85,7 @@ class SwipeTableViewCell: UITableViewCell {
         isPreviouslySelected = false
     }
     
-    private func hideSwipe(animated: Bool, completion: ((Bool) -> Void)? = nil) {
+    func hideSwipe(animated: Bool, completion: ((Bool) -> Void)? = nil) {
         swipeController.hideActionView(animated: true)
     }
 }

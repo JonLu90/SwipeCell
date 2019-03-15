@@ -48,7 +48,7 @@ class SwipeController: NSObject {
     @objc private func handleTap(gesture: UITapGestureRecognizer) {
         hideActionView(animated: true)
     }
-        
+    
     @objc private func handlePan(gesture: UIPanGestureRecognizer) {
         guard let target = actionContainerView, var swipeable = self.swipeable else { return }
         let velocity = gesture.velocity(in: target)
@@ -237,13 +237,40 @@ class SwipeController: NSObject {
     }
 }
 
+//extension SwipeController: UIGestureRecognizerDelegate {
+//    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+//        if gestureRecognizer == panGestureRecognizer {
+//            let gestureRecognizer = gestureRecognizer as! UIPanGestureRecognizer
+//            let view = gestureRecognizer.view
+//            let translation = gestureRecognizer.translation(in: view)
+//            return abs(translation.y) <= abs(translation.x)  // swipecell only works if swipe left/right
+//        }
+//
+//        return true
+//    }
+//}
+
 extension SwipeController: UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if gestureRecognizer == panGestureRecognizer {
-            let gestureRecognizer = gestureRecognizer as! UIPanGestureRecognizer
-            let view = gestureRecognizer.view
+        if gestureRecognizer == tapGestureRecognizer {
+//            if UIAccessibility.isVoiceOverRunning {
+//                tableView?.hideSwipeCells()
+//            }
+            
+            let swipedCell = tableView?.swipeCells.first(where: {
+                $0.state.isActive ||
+                    $0.panGestureRecognizer.state == .began ||
+                    $0.panGestureRecognizer.state == .changed ||
+                    $0.panGestureRecognizer.state == .ended
+            })
+            return swipedCell == nil ? false : true
+        }
+        
+        if gestureRecognizer == panGestureRecognizer,
+            let view = gestureRecognizer.view,
+            let gestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer {
             let translation = gestureRecognizer.translation(in: view)
-            return abs(translation.y) <= abs(translation.x)  // swipecell only works if swipe left/right
+            return abs(translation.y) <= abs(translation.x)
         }
         
         return true

@@ -13,9 +13,9 @@ extension UITableView {
     var swipeCells: [SwipeTableViewCell] {
         return visibleCells.compactMap({ $0 as? SwipeTableViewCell })
     }
-//    func hideSwipeCell() {
-//        swipeCells.forEach { $0.hideSwipe(animated: true) }
-//    }
+    func hideSwipeCells() {
+        swipeCells.forEach { $0.hideSwipe(animated: true) }
+    }
 }
 
 
