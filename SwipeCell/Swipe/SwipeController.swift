@@ -48,7 +48,7 @@ class SwipeController: NSObject {
     @objc private func handleTap(gesture: UITapGestureRecognizer) {
         hideActionView(animated: true)
     }
-    
+        
     @objc private func handlePan(gesture: UIPanGestureRecognizer) {
         guard let target = actionContainerView, var swipeable = self.swipeable else { return }
         let velocity = gesture.velocity(in: target)
@@ -130,7 +130,7 @@ class SwipeController: NSObject {
     
     private func handleTablePan(gesture: UIPanGestureRecognizer) {
         if gesture.state == .began {
-            
+            hideActionView(animated: true)
         }
     }
     
@@ -180,7 +180,7 @@ class SwipeController: NSObject {
         swipeable?.actionView = nil
     }
     
-    private func hideActionView(animated: Bool, completion: ((Bool)->Void)? = nil) {
+    func hideActionView(animated: Bool, completion: ((Bool)->Void)? = nil) {
         guard var swipeable = self.swipeable,
             let actionContainerView = self.actionContainerView else { return }
         guard swipeable.state == .revealed else { return }

@@ -22,6 +22,7 @@ class SwipeTableViewCell: UITableViewCell {
     var actionView: SwipeActionView?
     var swipeController: SwipeController!
     var tableView: UITableView?
+    var isPreviouslySelected = false
     var indexPath: IndexPath? {
         return tableView?.indexPath(for: self)
     }
@@ -35,6 +36,12 @@ class SwipeTableViewCell: UITableViewCell {
         
         swipeController = SwipeController(swipeable: self, actionContainerView: self)
         //swipeController.delegate = self
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        reset()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -51,13 +58,34 @@ class SwipeTableViewCell: UITableViewCell {
                 self.tableView = tableView
                 swipeController.tableView = tableView
                 
-                // handle table pan
+                tableView.panGestureRecognizer.removeTarget(self, action: nil)
+                tableView.panGestureRecognizer.addTarget(self, action: #selector(handleTablePan(gesture:)))
+                return
             }
+        }
+    }
+    
+    @objc func handleTablePan(gesture: UIPanGestureRecognizer) {
+        if gesture.state == .began {
+            hideSwipe(animated: true)
         }
     }
     
     private func reset() {
         swipeController.reset()
         clipsToBounds = false
+    
+        if isPreviouslySelected {
+            if let tableView = tableView, let indexPath = tableView.indexPath(for: self) {
+                tableView.selectRow(at: indexPath,
+                                    animated: false,
+                                    scrollPosition: .none)
+            }
+        }
+        isPreviouslySelected = false
+    }
+    
+    private func hideSwipe(animated: Bool, completion: ((Bool) -> Void)? = nil) {
+        swipeController.hideActionView(animated: true)
     }
 }
