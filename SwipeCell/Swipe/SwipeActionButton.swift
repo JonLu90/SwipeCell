@@ -9,11 +9,11 @@
 import UIKit
 
 class SwipeActionButton: UIButton {
-//    override var intrinsicContentSize: CGSize {
-//        return CGSize(width: 120, height: 100)
-//    }
-    convenience init(action: SwipeAction) {
-        self.init(frame: .zero)
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: 40, height: 40)
+    }
+    init(action: SwipeAction) {
+        super.init(frame: .zero)
         
         contentHorizontalAlignment = .center
         tintColor = .black
@@ -21,5 +21,16 @@ class SwipeActionButton: UIButton {
         titleLabel?.textAlignment = .center
         titleLabel?.lineBreakMode = .byTruncatingTail
         titleLabel?.numberOfLines = 1
+        
+        
+//        self.addTarget(self, action: #selector(tapToFire(sender:)), for: .touchUpInside)
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+//    @objc func tapToFire(sender: UIButton) {
+//        print("tap to fire !")
+//    }
 }

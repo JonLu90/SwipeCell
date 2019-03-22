@@ -36,6 +36,9 @@ class SwipeTableViewCell: UITableViewCell {
         
         swipeController = SwipeController(swipeable: self, actionContainerView: self)
         //swipeController.delegate = self
+        
+        isUserInteractionEnabled = true
+        
     }
     
     override func prepareForReuse() {

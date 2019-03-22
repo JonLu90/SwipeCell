@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SwipeCell/Swipe/SwipeActionView.swift"
-            timestampString = "574105849.706387"
+            timestampString = "574975152.2166539"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
             landmarkName = "actionButtonTapped(button:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,43 +26,91 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SwipeCell/Swipe/SwipeActionView.swift"
-            timestampString = "574105849.706808"
+            timestampString = "574975152.217109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
-            landmarkName = "setActionButtonExpansion(expanded:feedback:)"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
+            landmarkName = "actionButtonTapped(button:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwipeCell/Swipe/SwipeActionButton.swift"
+            timestampString = "574975152.217471"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "SwipeActionButton"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwipeCell/Swipe/SwipeActionView.swift"
+            timestampString = "574975152.217811"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "init(action:maxSize:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwipeCell/Swipe/SwipeActionButton.swift"
+            timestampString = "574975152.21808"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
+            landmarkName = "init(action:)"
             landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "SwipeCell.SwipeActionView.setActionButtonExpansion(expanded: Swift.Bool, feedback: Swift.Bool) -&gt; ()"
+                  symbolName = "SwipeCell.SwipeActionButton.__allocating_init(action: SwipeCell.SwipeAction) -&gt; SwipeCell.SwipeActionButton"
                   moduleName = "SwipeCell"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jon.lu/Documents/WWiOS/WWSwipeCell/SwipeCell/SwipeCell/Swipe/SwipeActionView.swift"
-                  timestampString = "574103122.315752"
+                  urlString = "file:///Users/jon.lu/Documents/WWiOS/WWSwipeCell/SwipeCell/SwipeCell/Swipe/SwipeActionButton.swift"
+                  timestampString = "574971485.742433"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "156"
-                  endingLineNumber = "156"
-                  offsetFromSymbolStart = "751">
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "4">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in SwipeCell.SwipeActionView.setActionButtonExpansion(expanded: Swift.Bool, feedback: Swift.Bool) -&gt; ()"
+                  symbolName = "SwipeCell.SwipeActionButton.init(action: SwipeCell.SwipeAction) -&gt; SwipeCell.SwipeActionButton"
                   moduleName = "SwipeCell"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jon.lu/Documents/WWiOS/WWSwipeCell/SwipeCell/SwipeCell/Swipe/SwipeActionView.swift"
-                  timestampString = "574103122.317611"
+                  urlString = "file:///Users/jon.lu/Documents/WWiOS/WWSwipeCell/SwipeCell/SwipeCell/Swipe/SwipeActionButton.swift"
+                  timestampString = "574971485.744293"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "157"
-                  endingLineNumber = "157"
-                  offsetFromSymbolStart = "20">
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "44">
                </Location>
             </Locations>
          </BreakpointContent>

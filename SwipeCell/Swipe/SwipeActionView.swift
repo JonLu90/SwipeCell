@@ -53,7 +53,7 @@ class RevealTransisionLayout: SwipeTransitionLayout {
 }
 
 class SwipeActionView: UIView {
-    let actionButton: SwipeActionButton
+    var actionButton: SwipeActionButton
     var minimumButtonWidth: CGFloat = 0
     //    TODO: SwipeAnimator
     var expansionAnimator: SwipeAnimator?
@@ -91,7 +91,7 @@ class SwipeActionView: UIView {
         actionButton = SwipeActionButton(action: action)
         actionButton.backgroundColor = .red
         actionButton.contentEdgeInsets = .zero
-        actionButton.tintColor = .black
+        actionButton.isUserInteractionEnabled = true
         actionButton.setTitle("Track me !", for: .normal)
         
         transitionLayout = RevealTransisionLayout()
@@ -101,7 +101,10 @@ class SwipeActionView: UIView {
         clipsToBounds = true
         translatesAutoresizingMaskIntoConstraints = false
         
-        actionButton.addTarget(self, action: #selector(actionButtonTapped(button:)), for: .touchUpInside)
+//        actionButton.addTarget(self, action: #selector(actionButtonTapped(button:)), for: .touchUpInside)
+        
+        
+        
         let frame = CGRect(origin: .zero, size: CGSize(width: bounds.width, height: bounds.height))
         
         minimumButtonWidth = 120
@@ -109,6 +112,10 @@ class SwipeActionView: UIView {
         let buttonWrapperView = SwipeActionButtonWrapperView(frame: frame, action: action, contentWidth: minimumButtonWidth)
         addSubview(buttonWrapperView)
         buttonWrapperView.addSubview(actionButton)
+        
+        buttonWrapperView.isUserInteractionEnabled = true
+        self.isUserInteractionEnabled = true
+        
         buttonWrapperView.translatesAutoresizingMaskIntoConstraints = false
         buttonWrapperView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         buttonWrapperView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
@@ -116,6 +123,10 @@ class SwipeActionView: UIView {
         buttonWrapperView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         actionButton.frame = buttonWrapperView.contentRect
         actionButton.autoresizingMask = [.flexibleLeftMargin, .flexibleHeight]
+        
+        actionButton.addTarget(self, action: #selector(tapButton(sender:)), for: .touchUpInside)
+        
+        
     }
     
     override func draw(_ rect: CGRect) {
@@ -125,9 +136,17 @@ class SwipeActionView: UIView {
         let context = UIGraphicsGetCurrentContext()
         backgroundColor.setFill()
         context?.fill(rect)
+        
+        // jondebug
+        print("button frame : \(actionButton.frame)")
+        
     }
     // for actionButton spring animation if swiped past half of the cell
     func expandIfNeeded(feedback enabled: Bool = true) {}
+    
+    @objc func tapButton(sender: UIButton) {
+        print("fire ! button tapped!")
+    }
     
     @objc func actionButtonTapped(button: SwipeActionButton) {
         // delegate?.swipeActionView(self, didSelect: swipeAction)

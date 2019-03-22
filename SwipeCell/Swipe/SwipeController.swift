@@ -156,6 +156,9 @@ class SwipeController: NSObject {
         actionView.delegate = self
         // those configure above should be inside init() func depends on action
         actionContainerView.addSubview(actionView)
+        
+        actionContainerView.isUserInteractionEnabled = true
+        
         actionView.heightAnchor.constraint(equalTo: swipeable.heightAnchor).isActive = true
         actionView.widthAnchor.constraint(equalTo: swipeable.widthAnchor, multiplier: 2).isActive = true
         actionView.topAnchor.constraint(equalTo: swipeable.topAnchor).isActive = true

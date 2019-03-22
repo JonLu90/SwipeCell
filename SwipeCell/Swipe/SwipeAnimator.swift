@@ -17,9 +17,6 @@ protocol SwipeAnimator {
     func stopAnimation(_ withoutFinishing: Bool)
 }
 
-//TODO: extenion of UIViewPropertyAnimtor
-// addCompletion
-
 extension UIViewPropertyAnimator: SwipeAnimator {
     func addCompletion(completion: @escaping (Bool) -> Void) {
         addCompletion { (position) in
