@@ -59,7 +59,7 @@ class SwipeActionView: UIView {
     var expansionAnimator: SwipeAnimator?
     //    TODO: feebackGenerator: SwipeFeedback
     //    TODO: consider safeAreaMargin
-    public var isExpanded: Bool = false  // set true if cell is dragged past center
+    private(set) var isExpanded: Bool = false  // set true if cell is dragged past center
     var delegate: SwipeActionViewDelegate?
     var buttonWidth: CGFloat = 120
     let transitionLayout: SwipeTransitionLayout
@@ -160,9 +160,11 @@ class SwipeActionView: UIView {
     }
     
     func setActionButtonExpansion(expanded: Bool, feedback: Bool = false) {
-        //guard self.expanded != expanded else { return }
+//        guard self.expanded != expanded else { return }
+//
+//        self.expanded = true
         
-        //self.expanded = expanded
+        self.expanded = expanded
         
         // TODO: Feedback
         
@@ -177,8 +179,7 @@ class SwipeActionView: UIView {
             self.setNeedsLayout()
             self.layoutIfNeeded()
         }
-        
-        expansionAnimator?.startAnimation()
+        if expanded { expansionAnimator?.startAnimation() }
         
         triggerExpansion(expanded)
     }

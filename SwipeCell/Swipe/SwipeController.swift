@@ -57,7 +57,7 @@ class SwipeController: NSObject {
         switch gesture.state {
         case .began:
             if let swipeable = tableView?.swipeCells.first(where: { $0.state == .dragging }),
-                swipeable != self.swipeable { return }
+                swipeable != self.swipeable ?? nil { return }
             
             stopAnimatorIfNeeded()
             originalCenter = target.center.x
@@ -75,7 +75,7 @@ class SwipeController: NSObject {
             
             if swipeable.state == .animatingToInitial {
                 let swipedCell = tableView?.swipeCells.first(where: { $0.state == .dragging || $0.state == .revealed })
-                if let swipedCell = swipedCell, swipedCell != self.swipeable { return }
+                if let swipedCell = swipedCell, swipedCell != self.swipeable ?? nil { return }
             }
             let translation = gesture.translation(in: target).x
             
@@ -93,12 +93,20 @@ class SwipeController: NSObject {
             target.center.x = gesture.elasticTranslation(in: target, withLimit: CGSize(width: targetOffset, height: 0), fromOriginalCenter: CGPoint(x: originalCenter, y: 0), applyingRatio: 1.0).x
             
             swipeable.actionView?.visibleWidth = abs(actionContainerView.frame.minX)
-            actionView.isExpanded = actionView.visibleWidth/swipeable.bounds.width > 0.5
+            //actionView.isExpanded = actionView.visibleWidth/swipeable.bounds.width > 0.5
+            
+            actionView.setActionButtonExpansion(expanded: actionView.visibleWidth/swipeable.bounds.width > 0.5,
+                                                feedback: false)
+            
+            
             
             if actionView.isExpanded {
                 print("actionView.isExpanded : \(actionView.isExpanded)")
                 actionView.setActionButtonExpansion(expanded: true, feedback: false)
             }
+//            actionView.setActionButtonExpansion(expanded: actionView.visibleWidth/swipeable.bounds.width > 0.5, feedback: false)
+            
+            
             
             swipeable.actionView?.expandIfNeeded() // for the button expand animation if drag past center
         case .ended, .cancelled, .failed:
@@ -114,11 +122,18 @@ class SwipeController: NSObject {
             }
             else {}
             
+            
+            
+            
+            
             let targetOffset: CGFloat = targetCenter(active: swipeable.state.isActive)
             let distance = targetOffset - actionContainerView.center.x
             let normalizedVelocity = velocity.x * scrollRatio / distance
             
             animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity, completion: nil)
+            
+            actionView.setActionButtonExpansion(expanded: actionView.visibleWidth/swipeable.bounds.width > 0.5, feedback: false)
+            
             if !swipeable.state.isActive {
                 delegate?.didEndEditingSwipeable(self)
             }
