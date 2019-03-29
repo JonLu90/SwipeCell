@@ -129,7 +129,10 @@ class SwipeController: NSObject {
                 
             }
             
-//
+            //actionView.setActionButtonExpansion(expanded: actionView.visibleWidth/swipeable.bounds.width > 0.5,
+            //                                    feedback: false)
+            
+            
 //           // actionView.setActionButtonExpansion(expanded: actionView.visibleWidth/swipeable.bounds.width > 0.5, feedback: false)
 //
 //            if !swipeable.state.isActive {
