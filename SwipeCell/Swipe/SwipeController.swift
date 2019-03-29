@@ -117,20 +117,18 @@ class SwipeController: NSObject {
                 let distance = targetOffset - actionContainerView.center.x
                 let normalizedVelocity = velocity.x * scrollRatio / distance
                 animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity, completion: nil)
+                
             }
             else {
                 print("released but action not triggered")
+                let targetOffset: CGFloat = targetCenter(active: swipeable.state.isActive)
+                let distance = targetOffset - actionContainerView.center.x
+                let normalizedVelocity = velocity.x * scrollRatio / distance
+                
+                animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity, completion: nil)
+                
             }
             
-            
-            
-            
-            
-//            let targetOffset: CGFloat = targetCenter(active: swipeable.state.isActive)
-//            let distance = targetOffset - actionContainerView.center.x
-//            let normalizedVelocity = velocity.x * scrollRatio / distance
-//
-//            animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity, completion: nil)
 //
 //           // actionView.setActionButtonExpansion(expanded: actionView.visibleWidth/swipeable.bounds.width > 0.5, feedback: false)
 //
