@@ -100,10 +100,10 @@ class SwipeController: NSObject {
             
             
             
-            if actionView.isExpanded {
-                print("actionView.isExpanded : \(actionView.isExpanded)")
-                actionView.setActionButtonExpansion(expanded: true, feedback: false)
-            }
+//            if actionView.isExpanded {
+//                print("actionView.isExpanded : \(actionView.isExpanded)")
+//                actionView.setActionButtonExpansion(expanded: true, feedback: false)
+//            }
 //            actionView.setActionButtonExpansion(expanded: actionView.visibleWidth/swipeable.bounds.width > 0.5, feedback: false)
             
             

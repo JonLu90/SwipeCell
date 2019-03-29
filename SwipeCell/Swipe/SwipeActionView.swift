@@ -84,6 +84,8 @@ class SwipeActionView: UIView {
         return CGSize(width: visibleWidth, height: bounds.height)
     }
     private(set) var expanded: Bool = false
+    private(set) var buttonShouldMoveWithCell: Bool = false
+    
     // TODO: var expandableAction: SwipeAction
     
     init(action: SwipeAction,
@@ -165,7 +167,7 @@ class SwipeActionView: UIView {
 //        self.expanded = true
         
         self.expanded = expanded
-        
+        self.buttonShouldMoveWithCell = true
         // TODO: Feedback
         
         if expansionAnimator?.isRunning == true {
@@ -179,7 +181,9 @@ class SwipeActionView: UIView {
             self.setNeedsLayout()
             self.layoutIfNeeded()
         }
-        if expanded { expansionAnimator?.startAnimation() }
+        if expanded || buttonShouldMoveWithCell {
+            print("expansion triggered !")
+            expansionAnimator?.startAnimation() }
         
         triggerExpansion(expanded)
     }
