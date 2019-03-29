@@ -131,6 +131,11 @@ class SwipeActionView: UIView {
         
     }
     
+    deinit {
+        // for debug
+        print("view is gone !")
+    }
+    
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         
