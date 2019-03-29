@@ -38,7 +38,7 @@ class SwipeController: NSObject {
     init(swipeable: UIView & Swipeable, actionContainerView: UIView) {
         self.swipeable = swipeable
         self.actionContainerView = actionContainerView
-        
+        self.actionContainerView?.isUserInteractionEnabled = true
         super.init()
         
         swipeable.addGestureRecognizer(panGestureRecognizer)
@@ -68,6 +68,7 @@ class SwipeController: NSObject {
                 delegate?.willBeginEditingSwipeable(self)
                 configureActionView(with: action)
             }
+            print("began : \(self.swipeable?.actionView?.isExpanded)")
         case .changed:
             guard let actionView = swipeable.actionView,
                 let actionContainerView = self.actionContainerView else  { return }
@@ -109,6 +110,7 @@ class SwipeController: NSObject {
             
             
             swipeable.actionView?.expandIfNeeded() // for the button expand animation if drag past center
+            print("changed : \(self.swipeable?.actionView?.isExpanded)")
         case .ended, .cancelled, .failed:
             guard let actionView = swipeable.actionView,
                 let actionContainerView = self.actionContainerView else { return }
@@ -116,11 +118,15 @@ class SwipeController: NSObject {
             
             swipeable.state = velocity.x < 0 && !actionView.isExpanded ? .initial : .revealed
             
+            print("ended : \(self.swipeable?.actionView?.isExpanded)")
+            
             if actionView.isExpanded {
                 // fire swipe action
                 print("Fill animation, fire action")
             }
-            else {}
+            else {
+                print("released but action not triggered")
+            }
             
             
             
