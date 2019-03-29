@@ -170,11 +170,11 @@ class SwipeActionView: UIView {
 //        guard self.expanded != expanded else { return }
 //
 //        self.expanded = true
+        isExpanded = expanded
         if expanded {
-            isExpanded = true
+            buttonShouldMoveWithCell = true
         }
         //isExpanded = expanded
-        buttonShouldMoveWithCell = true
         // TODO: Feedback
         
         if expansionAnimator?.isRunning == true {
@@ -188,7 +188,7 @@ class SwipeActionView: UIView {
             self.setNeedsLayout()
             self.layoutIfNeeded()
         }
-        if isExpanded {
+        if buttonShouldMoveWithCell {
             print("expansion triggered !")
             expansionAnimator?.startAnimation() }
         print("self.expanded : \(self.expanded)")
