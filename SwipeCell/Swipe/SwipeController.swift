@@ -99,16 +99,6 @@ class SwipeController: NSObject {
             actionView.setActionButtonExpansion(expanded: actionView.visibleWidth/swipeable.bounds.width > 0.5,
                                                 feedback: false)
             
-            
-            
-//            if actionView.isExpanded {
-//                print("actionView.isExpanded : \(actionView.isExpanded)")
-//                actionView.setActionButtonExpansion(expanded: true, feedback: false)
-//            }
-//            actionView.setActionButtonExpansion(expanded: actionView.visibleWidth/swipeable.bounds.width > 0.5, feedback: false)
-            
-            
-            
             swipeable.actionView?.expandIfNeeded() // for the button expand animation if drag past center
             print("changed : \(self.swipeable?.actionView?.isExpanded)")
         case .ended, .cancelled, .failed:
@@ -138,11 +128,13 @@ class SwipeController: NSObject {
             
             animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity, completion: nil)
             
-            actionView.setActionButtonExpansion(expanded: actionView.visibleWidth/swipeable.bounds.width > 0.5, feedback: false)
+           // actionView.setActionButtonExpansion(expanded: actionView.visibleWidth/swipeable.bounds.width > 0.5, feedback: false)
             
             if !swipeable.state.isActive {
                 delegate?.didEndEditingSwipeable(self)
             }
+            
+            
         default: break
         }
         
