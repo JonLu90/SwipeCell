@@ -17,8 +17,8 @@ protocol SwipeControllerDelegate: class {
 
 class SwipeController: NSObject {
     
-    var swipeable: (UIView & Swipeable)?
-    var actionContainerView: UIView?
+    weak var swipeable: (UIView & Swipeable)?
+    weak var actionContainerView: UIView?
     var tableView: UITableView?
     var delegate: SwipeControllerDelegate?
     var originalCenter: CGFloat = 0
@@ -129,6 +129,8 @@ class SwipeController: NSObject {
                 
             }
             
+            //actionView.buttonShouldMoveWithCell = false
+            
             //actionView.setActionButtonExpansion(expanded: actionView.visibleWidth/swipeable.bounds.width > 0.5,
             //                                    feedback: false)
             
@@ -164,6 +166,7 @@ class SwipeController: NSObject {
         guard var swipeable = self.swipeable,
               let actionContainerView = self.actionContainerView,
               let tableView = self.tableView else { return }
+        
         
         swipeable.actionView?.removeFromSuperview()
         swipeable.actionView = nil
@@ -211,9 +214,9 @@ class SwipeController: NSObject {
         let targetCenter = self.targetCenter(active: false)
         
         if animated {
-            animate(toOffset: targetCenter) { (animatingPosition) in
+            animate(toOffset: targetCenter) { [weak self](animatingPosition) in
                 if animatingPosition == .end {
-                    self.reset()
+                    self?.reset()
                 }
             }
         } else {}
@@ -240,9 +243,9 @@ class SwipeController: NSObject {
             }
         }()
         
-        animator.addAnimations {
-            guard let swipeable = self.swipeable,
-                  let actionContainerView = self.actionContainerView else { return }
+        animator.addAnimations {[weak self] in
+            guard let swipeable = self?.swipeable,
+                  let actionContainerView = self?.actionContainerView else { return }
             
             actionContainerView.center = CGPoint(x: offset, y: actionContainerView.center.y)
             swipeable.actionView?.visibleWidth = abs(actionContainerView.frame.minX)
