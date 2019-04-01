@@ -112,6 +112,10 @@ class SwipeController: NSObject {
             
             if actionView.isExpanded {
                 // fire swipe action
+                
+                // TODO
+                // private fun perform(action: SwipeAction with hide: Bool) {}
+                
                 print("Fill animation, fire action")
                 hideActionView(animated: true)
             }
@@ -124,20 +128,6 @@ class SwipeController: NSObject {
                 animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity, completion: nil)
                 
             }
-            
-            //actionView.buttonShouldMoveWithCell = false
-            
-            //actionView.setActionButtonExpansion(expanded: actionView.visibleWidth/swipeable.bounds.width > 0.5,
-            //                                    feedback: false)
-            
-            
-//           // actionView.setActionButtonExpansion(expanded: actionView.visibleWidth/swipeable.bounds.width > 0.5, feedback: false)
-//
-//            if !swipeable.state.isActive {
-//                delegate?.didEndEditingSwipeable(self)
-//            }
-            
-            
         default: break
         }
         
@@ -160,8 +150,8 @@ class SwipeController: NSObject {
     
     private func configureActionView(with action: SwipeAction) {
         guard var swipeable = self.swipeable,
-              let actionContainerView = self.actionContainerView,
-              let tableView = self.tableView else { return }
+            let actionContainerView = self.actionContainerView,
+            let tableView = self.tableView else { return }
         
         
         swipeable.actionView?.removeFromSuperview()
@@ -241,7 +231,7 @@ class SwipeController: NSObject {
         
         animator.addAnimations {[weak self] in
             guard let swipeable = self?.swipeable,
-                  let actionContainerView = self?.actionContainerView else { return }
+                let actionContainerView = self?.actionContainerView else { return }
             
             actionContainerView.center = CGPoint(x: offset, y: actionContainerView.center.y)
             swipeable.actionView?.visibleWidth = abs(actionContainerView.frame.minX)
@@ -273,9 +263,9 @@ class SwipeController: NSObject {
 extension SwipeController: UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == tapGestureRecognizer {
-//            if UIAccessibility.isVoiceOverRunning {
-//                tableView?.hideSwipeCells()
-//            }
+            //            if UIAccessibility.isVoiceOverRunning {
+            //                tableView?.hideSwipeCells()
+            //            }
             
             let swipedCell = tableView?.swipeCells.first(where: {
                 $0.state.isActive ||
