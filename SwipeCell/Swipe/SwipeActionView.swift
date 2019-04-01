@@ -147,6 +147,21 @@ class SwipeActionView: UIView {
         print("button frame : \(actionButton.frame)")
         
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        for subView in subviews.enumerated() {
+            transitionLayout.layout(view: subView.element, with: layoutContext)
+        }
+        
+        
+        if isExpanded {
+            //self.actionButton.center.x = self.bounds.maxX - 60
+            subviews.last?.frame.origin.x = 0 + bounds.origin.x
+        }
+    }
+    
     // for actionButton spring animation if swiped past half of the cell
     func expandIfNeeded(feedback enabled: Bool = true) {}
     
@@ -166,13 +181,13 @@ class SwipeActionView: UIView {
     }
     
     func setActionButtonExpansion(expanded: Bool, feedback: Bool = false) {
-//        guard self.expanded != expanded else { return }
-//
-//        self.expanded = true
-        isExpanded = expanded
-        if expanded {
-            buttonShouldMoveWithCell = true
-        }
+
+        guard self.isExpanded != expanded else { return }
+        
+        self.isExpanded = expanded
+//        if expanded {
+//            buttonShouldMoveWithCell = true
+//        }
         //isExpanded = expanded
         // TODO: Feedback
         
@@ -180,16 +195,18 @@ class SwipeActionView: UIView {
             expansionAnimator?.stopAnimation(true)
         }
         // ios 10 only
-        expansionAnimator = UIViewPropertyAnimator(duration: 0.1, dampingRatio: 1.0)
+        expansionAnimator = UIViewPropertyAnimator(duration: 0.4, dampingRatio: 1.0)
         
         expansionAnimator?.addAnimations {[weak self] in
-            self?.actionButton.center.x = self!.bounds.maxX - 60 // fix this
+            //self?.actionButton.center.x = self!.bounds.maxX - 60 // fix this
             self?.setNeedsLayout()
             self?.layoutIfNeeded()
         }
-        if buttonShouldMoveWithCell {
-            print("expansion triggered !")
-            expansionAnimator?.startAnimation() }
+        //if buttonShouldMoveWithCell {
+            //print("expansion triggered !")
+            expansionAnimator?.startAnimation()
+            
+        //}
         
         triggerExpansion(expanded)
     }

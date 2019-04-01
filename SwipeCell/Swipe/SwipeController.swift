@@ -19,8 +19,8 @@ class SwipeController: NSObject {
     
     weak var swipeable: (UIView & Swipeable)?
     weak var actionContainerView: UIView?
-    var tableView: UITableView?
-    var delegate: SwipeControllerDelegate?
+    weak var tableView: UITableView?
+    weak var delegate: SwipeControllerDelegate?
     var originalCenter: CGFloat = 0
     var animator: UIViewPropertyAnimator?
     var scrollRatio: CGFloat = 1.0
