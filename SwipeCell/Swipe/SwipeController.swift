@@ -113,11 +113,7 @@ class SwipeController: NSObject {
             if actionView.isExpanded {
                 // fire swipe action
                 print("Fill animation, fire action")
-                let targetOffset = targetCenter(active: !swipeable.state.isActive)
-                let distance = targetOffset - actionContainerView.center.x
-                let normalizedVelocity = velocity.x * scrollRatio / distance
-                animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity, completion: nil)
-                
+                hideActionView(animated: true)
             }
             else {
                 print("released but action not triggered")
